@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1340
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KT_Interface", "KT_Interface\KT_Interface.csproj", "{4F5B8808-E7F8-4C83-B139-70860A5575EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorial", "Tutorial\Tutorial.csproj", "{ABB8D6D4-C9E7-4058-A505-20E2DC2E1BFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4F5B8808-E7F8-4C83-B139-70860A5575EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F5B8808-E7F8-4C83-B139-70860A5575EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F5B8808-E7F8-4C83-B139-70860A5575EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB8D6D4-C9E7-4058-A505-20E2DC2E1BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB8D6D4-C9E7-4058-A505-20E2DC2E1BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB8D6D4-C9E7-4058-A505-20E2DC2E1BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB8D6D4-C9E7-4058-A505-20E2DC2E1BFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
