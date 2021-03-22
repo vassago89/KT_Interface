@@ -37,8 +37,16 @@
     <Reference Include="MvCameraControl.Net">
       <HintPath>..\ThirdParty\MvCameraControl.Net.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.8\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraFactorys\BaslerCameraFactory.cs" />
+    <Compile Include="Comm\SerialComm.cs" />
+    <Compile Include="Comm\TcpComm.cs" />
+    <Compile Include="CoreConfig.cs" />
     <Compile Include="Infos\CameraInfo.cs" />
     <Compile Include="Cameras\BaslerCamera.cs" />
     <Compile Include="Cameras\HikCamera.cs" />
@@ -56,10 +67,15 @@
     <Compile Include="CameraFactorys\ICameraFactory.cs" />
     <Compile Include="Infos\ParameterInfo.cs" />
     <Compile Include="Infos\GrabInfo.cs" />
+    <Compile Include="Infos\SerialInfo.cs" />
+    <Compile Include="Infos\TcpInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HostCommService.cs" />
+    <Compile Include="Services\LightControlService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
