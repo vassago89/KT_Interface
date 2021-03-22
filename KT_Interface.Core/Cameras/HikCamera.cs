@@ -37,7 +37,7 @@ namespace KT_Interface.Core.Cameras
             Handle.Free();
         }
         
-        public bool StartGrab(int grabCount = -1, int timeout = -1)
+        public bool StartGrab(int grabCount = -1)
         {
             _count = 0;
             _grabCount = grabCount;
@@ -77,7 +77,7 @@ namespace KT_Interface.Core.Cameras
             if (camera._grabCount > 0)
             {
                 camera._count++;
-                if (camera._grabCount == camera._count)
+                if (camera._grabCount >= camera._count)
                     camera.Stop();
             }
             

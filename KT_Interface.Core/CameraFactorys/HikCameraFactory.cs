@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static KT_Interface.Core.CameraFactorys.CameraFactory;
 
 namespace KT_Interface.Core.CameraFactorys
 {

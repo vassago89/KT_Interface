@@ -197,7 +197,7 @@ namespace KT_Interface.Core.Cameras
                 return _camera.Parameters[PLCamera.TriggerMode].TrySetValue(PLCamera.TriggerMode.Off);
         }
 
-        public bool StartGrab(int grabCount = -1, int timeout = -1)
+        public bool StartGrab(int grabCount = -1)
         {
             _grabCount = grabCount;
             _count = 0;
@@ -214,6 +214,14 @@ namespace KT_Interface.Core.Cameras
 
         private void StreamGrabber_ImageGrabbed(object sender, Basler.Pylon.ImageGrabbedEventArgs e)
         {
+            if (_grabCount > 0)
+            {
+                _count++;
+
+                if (_count >= _grabCount)
+                    Stop();
+            }
+            
             Basler.Pylon.IGrabResult result = e.GrabResult;
 
             if (result.GrabSucceeded)

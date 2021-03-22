@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KT_Interface.Core.Cameras;
 using KT_Interface.Core.Infos;
+using static KT_Interface.Core.CameraFactorys.CameraFactory;
 
 namespace KT_Interface.Core.CameraFactorys
 {

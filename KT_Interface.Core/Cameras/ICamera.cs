@@ -25,7 +25,7 @@ namespace KT_Interface.Core.Cameras
     public interface ICamera
     {
         Action<GrabInfo> ImageGrabbed { get; set; }
-        bool StartGrab(int grabCount = -1, int timeout = -1);
+        bool StartGrab(int grabCount = -1);
         bool Stop();
         bool Disconnect();
         
