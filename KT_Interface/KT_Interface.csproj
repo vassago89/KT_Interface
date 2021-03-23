@@ -138,11 +138,5 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KT_Interface.Core\KT_Interface.Core.csproj">
-      <Project>{31E06B3A-EAFD-4746-80B4-9BAEBF263BA2}</Project>
-      <Name>KT_Interface.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

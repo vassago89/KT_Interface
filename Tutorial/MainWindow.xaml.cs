@@ -2,6 +2,8 @@
 using KT_Interface.Core.CameraFactorys;
 using KT_Interface.Core.Cameras;
 using KT_Interface.Core.Infos;
+using KT_Interface.Core.Services;
+using NLog;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -45,14 +47,27 @@ namespace Tutorial
         {
             InitializeComponent();
 
+            CoreConfig config = new CoreConfig();
+            LogFactory factory = new LogFactory();
+
+            var grabService = new GrabService(factory);
+
+            grabService.ImageGrabbed += ImageGrabbed;
+
+            var infos = grabService.GetDeviceInfos();
+            grabService.Connect(infos.First());
+            HostCommService service =
+                new HostCommService(
+                    new InspectService(config, factory),
+                    grabService,
+                    new LightControlService(config, factory),
+                    config, 
+                    factory);
+
+            service.Connect();
+
             GrabCommand = new DelegateCommand(() =>
             {
-
-                var factory = new BaslerCameraFactory();
-                var devices = factory.GetDevices();
-                var camera = factory.Connect(devices.First());
-                camera.ImageGrabbed += ImageGrabbed;
-                var grabInfo = camera.StartGrab();
 
             });
 

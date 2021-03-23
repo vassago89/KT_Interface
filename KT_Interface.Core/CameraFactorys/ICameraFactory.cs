@@ -34,12 +34,12 @@ namespace KT_Interface.Core.CameraFactorys
 
             return null;
         }
+    }
 
-        public interface ICameraFactory
+    public interface ICameraFactory
     {
         IEnumerable<CameraInfo> GetDevices();
         ICamera Connect(CameraInfo cameraInfo);
         bool IsExist(CameraInfo cameraInfo);
-    }
     }
 }

@@ -36,6 +36,32 @@ namespace KT_Interface.Core.Services
             }
         }
 
+        public bool LightOn()
+        {
+            try
+            {
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+                return false;
+            }
+        }
+
+        public bool LightOff()
+        {
+            try
+            {
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+                return false;
+            }
+        }
+
         public bool SetValue(int value)
         {
             try
