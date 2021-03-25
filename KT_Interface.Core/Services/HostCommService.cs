@@ -85,30 +85,30 @@ namespace KT_Interface.Core.Services
 
         private async static void AsyncTcpProcess(object o)
         {
+            
             var service = (HostCommService)o;
             var client = service._client;
-
             NetworkStream stream = client.GetStream();
 
-            var buff = new byte[1024];
-            var nbytes = await stream.ReadAsync(buff, 0, buff.Length).ConfigureAwait(false);
-
-            if (nbytes > 0)
+            try
             {
-                string message = Encoding.ASCII.GetString(buff, 0, nbytes);
-                try
+                var buff = new byte[1024];
+                var nbytes = await stream.ReadAsync(buff, 0, buff.Length).ConfigureAwait(false);
+
+                if (nbytes > 0)
                 {
+                    string message = Encoding.ASCII.GetString(buff, 0, nbytes);
                     await service.DataRecived(message).ConfigureAwait(false);
                 }
-                catch (Exception e)
-                {
-                    service._logger.Error(e);
-                }
-                finally
-                {
-                    stream.Close();
-                    client.Close();
-                }
+            }
+            catch (Exception e)
+            {
+                service._logger.Error(e);   
+            }
+            finally
+            {
+                stream.Close();
+                client.Close();
             }
         }
 

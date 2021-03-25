@@ -68,7 +68,7 @@ namespace Tutorial
 
             GrabCommand = new DelegateCommand(() =>
             {
-
+                grabService.Grab();
             });
 
             this.DataContext = this;

@@ -15,6 +15,8 @@ namespace HostTest
         {
             Thread.Sleep(2000);
 
+            Console.WriteLine("-----Host-----\n\n");
+
             while (true)
             {
                 TcpClient client = new TcpClient();
