@@ -185,10 +185,10 @@ namespace KT_Interface.Core.Services
             {
                 case EMachineCommand.Result:
                 case EMachineCommand.Nak:
-                    message = $"{command},{obj}";
+                    message = string.Format("{0},{1}", command, obj);
                     break;
                 case EMachineCommand.Ack:
-                    message = $"{command}";
+                    message = string.Format("{0}", command);
                     break;
             }
 

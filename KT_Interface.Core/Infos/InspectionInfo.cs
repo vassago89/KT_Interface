@@ -13,17 +13,40 @@ namespace KT_Interface.Core.Infos
 
     public struct InspectionInfo
     {
-        public EInspectionResult Result { get; }
-        public string WaferID { get; }
-        public string ImagePath { get; }
+        private EInspectionResult _result;
+        public EInspectionResult Result 
+        {
+            get 
+            {
+                return _result;
+            }
+        }
+
+        private string _waferID;
+        public string WaferID 
+        { 
+            get
+            {
+                return _waferID;
+            }
+        }
+
+        private string _imagePath;
+        public string ImagePath 
+        { 
+            get
+            {
+                return _imagePath;
+            }
+        }
 
         public InspectionInfo(
             string waferID,
             string imagePath)
         {
-            Result = EInspectionResult.Pass;
-            WaferID = waferID;
-            ImagePath = imagePath;
+            _result = EInspectionResult.Pass;
+            _waferID = waferID;
+            _imagePath = imagePath;
         }
 
         public override string ToString()
@@ -31,7 +54,7 @@ namespace KT_Interface.Core.Infos
             switch (Result)
             {
                 case EInspectionResult.Pass:
-                    return $"{Result},{WaferID},{ImagePath}";
+                    return string.Format("{0},{1},{2}", Result, WaferID, ImagePath);
                 case EInspectionResult.NG:
                     throw new NotImplementedException();
             }

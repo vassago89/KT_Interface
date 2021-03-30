@@ -8,11 +8,18 @@ namespace KT_Interface.ViewModels
 {
     class ShellViewModel
     {
-        public AppConfig AppConfig { get; }
+        private AppConfig _appConfig;
+        public AppConfig AppConfig 
+        { 
+            get
+            {
+                return _appConfig;
+            }
+        }
 
         public ShellViewModel(AppConfig appConfig)
         {
-            AppConfig = appConfig;
+            _appConfig = appConfig;
         }
     }
 }

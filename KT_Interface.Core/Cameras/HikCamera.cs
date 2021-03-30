@@ -13,17 +13,32 @@ namespace KT_Interface.Core.Cameras
     {
         private MyCamera _device;
         private MyCamera.MV_IMAGE_BASIC_INFO _info;
-        public GCHandle Handle { get; }
+        private GCHandle _handle;
+        public GCHandle Handle 
+        { 
+            get
+            {
+                return _handle;
+            }
+        }
 
         private int _count;
         private int _grabCount;
         public Action<GrabInfo> ImageGrabbed { get; set; }
 
-        public static MyCamera.cbOutputExdelegate ImageCallback { get; } = new MyCamera.cbOutputExdelegate(ImageCallbackFunc);
+        private static MyCamera.cbOutputExdelegate _imageCallback;
+        public static MyCamera.cbOutputExdelegate ImageCallback 
+        { 
+            get
+            {
+                return _imageCallback;
+            }
+        } 
 
         public HikCamera(MyCamera device, MyCamera.MV_IMAGE_BASIC_INFO info)
         {
-            Handle = GCHandle.Alloc(this);
+            _imageCallback = new MyCamera.cbOutputExdelegate(ImageCallbackFunc);
+            _handle = GCHandle.Alloc(this);
 
             _device = device;
             _info = info;
@@ -80,8 +95,9 @@ namespace KT_Interface.Core.Cameras
                 if (camera._grabCount >= camera._count)
                     camera.Stop();
             }
-            
-            camera.ImageGrabbed?.Invoke(ConvertImage(pFrameInfo, pData, camera._device));
+
+            if (camera.ImageGrabbed != null)
+                camera.ImageGrabbed(ConvertImage(pFrameInfo, pData, camera._device));
         }
         
         private static GrabInfo ConvertImage(MyCamera.MV_FRAME_OUT_INFO_EX frameInfo, IntPtr pData, MyCamera device)

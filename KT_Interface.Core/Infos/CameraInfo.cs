@@ -19,17 +19,48 @@ namespace KT_Interface.Core.Infos
 
     public class CameraInfo
     {
-        public ECameraManufacturer Manufacturer { get; }
-        public ECameraType CameraType { get; }
-        public string ModelName { get; }
-        public string SerialNo { get; }
+        private ECameraManufacturer _manufacturer;
+        public ECameraManufacturer Manufacturer 
+        { 
+            get
+            {
+                return _manufacturer;
+            }
+        }
+
+        private ECameraType _cameraType;
+        public ECameraType CameraType
+        {
+            get
+            {
+                return _cameraType;
+            }
+        }
+
+        private string _modelName;
+        public string ModelName 
+        { 
+            get
+            {
+                return _modelName;
+            }
+        }
+
+        private string _serialNo;
+        public string SerialNo 
+        { 
+            get
+            {
+                return _serialNo;
+            }
+        }
 
         public CameraInfo(ECameraManufacturer manufacturer, ECameraType cameraType, string modelName, string serialNo)
         {
-            Manufacturer = manufacturer;
-            CameraType = cameraType;
-            ModelName = modelName;
-            SerialNo = serialNo;
+            _manufacturer = manufacturer;
+            _cameraType = cameraType;
+            _modelName = modelName;
+            _serialNo = serialNo;
         }
     }
 }

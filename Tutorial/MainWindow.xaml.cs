@@ -28,8 +28,14 @@ namespace Tutorial
         ImageSource _image;
         public ImageSource Image
         {
-            get => _image;
-            set => SetProperty(ref _image, value);
+            get 
+            {
+                return _image;
+            }
+            set 
+            {
+                SetProperty(ref _image, value);
+            }
         }
     }
 
@@ -38,10 +44,23 @@ namespace Tutorial
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string Test { get; } = "TEST";
-        public DelegateCommand GrabCommand { get; }
+        private DelegateCommand _grabCommand;
+        public DelegateCommand GrabCommand 
+        { 
+            get
+            {
+                return _grabCommand;
+            }
+        }
 
-        public ImageLoader Store { get; } = new ImageLoader();
+        private ImageLoader _store = new ImageLoader();
+        public ImageLoader Store 
+        { 
+            get
+            {
+                return _store;
+            }
+        }
 
         public MainWindow()
         {
@@ -66,7 +85,7 @@ namespace Tutorial
 
             service.Connect();
 
-            GrabCommand = new DelegateCommand(() =>
+            _grabCommand = new DelegateCommand(() =>
             {
                 grabService.Grab();
             });

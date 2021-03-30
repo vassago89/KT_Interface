@@ -231,23 +231,33 @@ namespace KT_Interface.Core.Cameras
                     var src = result.PixelData as byte[];
                     var data = new byte[src.Length];
                     Array.Copy(src, data, src.Length);
-                    ImageGrabbed?.Invoke(
+                    if (ImageGrabbed != null)
+                    {
+                        ImageGrabbed(
                         new GrabInfo(
                             EGrabResult.Success, result.Width, result.Height, 1, data));
+                    }
+                    
                     return;
                 }
                 else
                 {
                     var data = new byte[result.Width * result.Height * 3];
                     _converter.Convert(data, result);
-                    ImageGrabbed?.Invoke(
+
+                    if (ImageGrabbed != null)
+                    {
+                        ImageGrabbed(
                         new GrabInfo(
                             EGrabResult.Success, result.Width, result.Height, 3, data));
+                    }
+                    
                     return;
                 }
             }
 
-            ImageGrabbed?.Invoke(new GrabInfo(EGrabResult.Error));
+            if (ImageGrabbed != null)
+                ImageGrabbed(new GrabInfo(EGrabResult.Error));
         }
 
         public bool Stop()

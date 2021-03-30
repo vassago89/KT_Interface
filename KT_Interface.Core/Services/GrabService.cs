@@ -162,7 +162,8 @@ namespace KT_Interface.Core.Services
                 _grabbing = false;
             }
             
-            ImageGrabbed?.Invoke(grabInfo);
+            if (ImageGrabbed != null)
+                ImageGrabbed(grabInfo);
         }
     }
 }

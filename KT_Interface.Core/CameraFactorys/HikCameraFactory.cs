@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static KT_Interface.Core.CameraFactorys.CameraFactory;
 
 namespace KT_Interface.Core.CameraFactorys
 {
@@ -47,7 +46,8 @@ namespace KT_Interface.Core.CameraFactorys
             if (IsExist(cameraInfo) == false)
                 return null;
 
-            if (GetHikDeviceInfo(cameraInfo, out MyCamera.MV_CC_DEVICE_INFO stDevInfo) == false)
+            MyCamera.MV_CC_DEVICE_INFO stDevInfo;
+            if (GetHikDeviceInfo(cameraInfo, out stDevInfo) == false)
                 return null;
 
             var device = new MyCamera();
@@ -89,8 +89,8 @@ namespace KT_Interface.Core.CameraFactorys
         {
             if (cameraInfo.Manufacturer != ECameraManufacturer.Hik)
                 return false;
-
-            return GetHikDeviceInfo(cameraInfo, out MyCamera.MV_CC_DEVICE_INFO stDevInfo);
+            MyCamera.MV_CC_DEVICE_INFO stDevInfo;
+            return GetHikDeviceInfo(cameraInfo, out stDevInfo);
         }
 
         private static bool GetHikDeviceInfo(CameraInfo cameraInfo, out MyCamera.MV_CC_DEVICE_INFO stDevInfo)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Drawing.Imaging;
@@ -43,21 +44,23 @@ namespace KT_Interface.Core.Services
                 switch (grabInfo.Channels)
                 {
                     case 1:
-                        _mat = new Mat(grabInfo.Height, grabInfo.Width, MatType.CV_8UC3);
+                        _mat = new Mat(grabInfo.Height, grabInfo.Width, MatType.CV_8UC1);
                         break;
                     case 3:
-                        _mat = new Mat(grabInfo.Height, grabInfo.Width, MatType.CV_8UC1);
+                        _mat = new Mat(grabInfo.Height, grabInfo.Width, MatType.CV_8UC3);
                         break;
                 }
             }
-            _mat.SetArray(grabInfo.Data);
+
+            Marshal.Copy(grabInfo.Data, 0, _mat.Data, grabInfo.Data.Length);
+            //_mat.SetArray(grabInfo.Data);
 
             if (Directory.Exists(_coreConfig.TempPath) == false)
                 Directory.CreateDirectory(_coreConfig.TempPath);
             
-            var imagePath = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}.{_coreConfig.ImageFormat}";
+            var imagePath = string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmss"), _coreConfig.ImageFormat);
             if (waferID != null)
-                imagePath = $"{waferID}_{imagePath}";
+                imagePath = string.Format("{0}_{1}", waferID, imagePath);
 
             imagePath = Path.Combine(_coreConfig.TempPath, imagePath);
             imagePath = Path.GetFullPath(imagePath);
@@ -78,7 +81,7 @@ namespace KT_Interface.Core.Services
 
                 try
                 {
-                    byte[] buff = Encoding.ASCII.GetBytes($"{imagePath}");
+                    byte[] buff = Encoding.ASCII.GetBytes(string.Format("{0}", imagePath));
                     stream.Write(buff, 0, buff.Length);
 
                     byte[] outbuf = new byte[1024];

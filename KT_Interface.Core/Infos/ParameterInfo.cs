@@ -9,29 +9,114 @@ namespace KT_Interface.Core.Infos
 {
     public struct CameraParameter
     {
-        public double Current { get; }
-        public double Min { get; }
-        public double Max { get; }
+        private double _current;
+        public double Current 
+        { 
+            get
+            {
+                return _current;
+            }
+        }
+
+        private double _min;
+        public double Min 
+        { 
+            get
+            {
+                return _min;
+            }
+        }
+
+        private double _max;
+        public double Max 
+        { 
+            get
+            {
+                return _max;
+            }
+        }
 
         public CameraParameter(double current, double min, double max)
         {
-            Current = current;
-            Min = min;
-            Max = max;
+            _current = current;
+            _min = min;
+            _max = max;
         }
     }
 
     public class CameraParameterInfo
     {
-        public CameraParameter Width { get; }
-        public CameraParameter Height { get; }
-        public CameraParameter Exposure { get; }
-        public CameraParameter Gain { get; }
-        public CameraParameter FrameRate { get; }
-        public CameraParameter TriggerDelay { get; }
+        private CameraParameter _width;
+        public CameraParameter Width 
+        { 
+            get
+            {
+                return _width;
+            }
+        }
 
-        public bool OnTriggerMode { get; }
-        public IDictionary<ECameraAutoType, ECameraAutoValue> AutoValues { get; }
+        private CameraParameter _height;
+        public CameraParameter Height 
+        { 
+            get
+            {
+                return _height;
+            }
+        }
+
+        private CameraParameter _exposure;
+        public CameraParameter Exposure 
+        { 
+            get
+            {
+                return _exposure;
+            }
+        }
+
+        private CameraParameter _gain;
+        public CameraParameter Gain 
+        { 
+            get
+            {
+                return _gain;
+            }
+        }
+
+        private CameraParameter _frameRate;
+        public CameraParameter FrameRate 
+        { 
+            get
+            {
+                return _frameRate;
+            }
+        }
+
+        private CameraParameter _triggerDelay;
+        public CameraParameter TriggerDelay 
+        { 
+            get
+            {
+                return _triggerDelay;
+            }
+        }
+
+        private bool _onTriggerMode;
+        public bool OnTriggerMode 
+        { 
+            get
+            {
+                return _onTriggerMode;
+            }
+        }
+
+        private IDictionary<ECameraAutoType, ECameraAutoValue> _autoValues;
+        public IDictionary<ECameraAutoType, ECameraAutoValue> AutoValues 
+        { 
+            get
+            {
+                return _autoValues;
+            }
+        }
 
         public CameraParameterInfo(
             CameraParameter width,
@@ -43,14 +128,14 @@ namespace KT_Interface.Core.Infos
             bool onTriggerMode,
             IDictionary<ECameraAutoType, ECameraAutoValue> autoValues)
         {
-            Width = width;
-            Height = height;
-            Exposure = exposure;
-            Gain = gain;
-            FrameRate = frameRate;
-            TriggerDelay = triggerDelay;
-            OnTriggerMode = onTriggerMode;
-            AutoValues = autoValues;
+            _width = width;
+            _height = height;
+            _exposure = exposure;
+            _gain = gain;
+            _frameRate = frameRate;
+            _triggerDelay = triggerDelay;
+            _onTriggerMode = onTriggerMode;
+            _autoValues = autoValues;
         }
     }
 }

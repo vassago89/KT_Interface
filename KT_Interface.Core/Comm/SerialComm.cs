@@ -23,7 +23,9 @@ namespace KT_Interface.Core.Comm
         private void PortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var port = (SerialPort)sender;
-            DataReceived?.Invoke(port.ReadExisting());
+            
+            if (DataReceived != null)
+                DataReceived(port.ReadExisting());
         }
 
         public bool Write(string str)
