@@ -10,16 +10,23 @@ namespace KT_Interface.ViewModels
 {
     class SubViewModel
     {
-        public DelegateCommand CloseCommand { get; }
+        private DelegateCommand _closeCommand;
+        public DelegateCommand CloseCommand
+        {
+            get
+            {
+                return _closeCommand;
+            }
+        }
 
         public SubViewModel()
         {
-            CloseCommand = new DelegateCommand(() =>
+            _closeCommand = new DelegateCommand(() =>
             {
                 Application.Current.Shutdown();
             });
 
-            CloseCommand = new DelegateCommand(Close);
+            _closeCommand = new DelegateCommand(Close);
         }
 
         private void Close()
