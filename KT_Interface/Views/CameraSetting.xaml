@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="KT_Interface.Views.CameraSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KT_Interface.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="230" d:DesignWidth="200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Margin="5" Width="24">
+                <Image.Source>
+                    <BitmapImage DecodePixelHeight="24"
+                                 UriSource="/Images/gears.png"/>
+                </Image.Source>
+            </Image>
+            <TextBlock Grid.Column="1" Style="{StaticResource App_TextBlock}">Camera Setting</TextBlock>
+        </Grid>
+        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource App_TextBlock}">Mode</TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource App_TextBlock}">Delay</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource App_TextBlock}">Frame Rate</TextBlock>
+        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource App_TextBlock}">Frame Count1</TextBlock>
+        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource App_TextBlock}">Frame Count2</TextBlock>
+        <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource App_TextBlock}">Exposure</TextBlock>
+        
+        <ListBox x:Name="listBox" Grid.Column="1"  Style="{StaticResource App_ListBox}" Height="16" Grid.Row="1" Width="100"/>
+        <ListBox x:Name="listBox1" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="2" Width="100"/>
+        <ListBox x:Name="listBox2" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="3" Width="100"/>
+        <ListBox x:Name="listBox3" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="4" Width="100"/>
+        <ListBox x:Name="listBox4" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="5" Width="100"/>
+        <ListBox x:Name="listBox5" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="6" Width="100"/>
+        
+        <Button Style="{StaticResource App_Button}" Grid.Column="1" Grid.Row="7">
+            <Button.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Height="24" Width="24" Grid.Column="0">
+                        <Image.Source>
+                            <BitmapImage DecodePixelHeight="24"
+                                         UriSource="/Images/save_as.png"/>
+                        </Image.Source>
+                    </Image>
+                    <Label Grid.Column="1" Foreground="White">SAVE</Label>
+                </Grid>
+            </Button.Content>
+        </Button>
+    </Grid>
+</UserControl>

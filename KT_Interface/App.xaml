@@ -3,6 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:KT_Interface">
     <Application.Resources>
-         
+        <!--Border_Main-->
+        <Style TargetType="Border" x:Key="App_Border">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <!--<Style TargetType="Grid">
+            <Setter Property="Background" Value="Black"/>
+        </Style>-->
+        <!--TextBox_Main-->
+        <Style TargetType="TextBox" x:Key="App_TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <!--Button_Main-->
+        <Style TargetType="Button" x:Key="App_Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="App_TextBlock">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="RadioButton" x:Key="App_RadioButton">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="ListBox" x:Key="App_ListBox">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="Label" x:Key="App_Label">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
     </Application.Resources>
 </Application>

@@ -5,13 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KT_Interface.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="450" Width="800">
+        Title="Interface" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="Black">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding AppConfig.Title}" Foreground="Black" FontSize="24"/>
+        <DockPanel LastChildFill="True" Grid.Row="0">
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock DockPanel.Dock="Left" Text="{Binding AppConfig.Title}"
+                           Style="{StaticResource App_TextBlock}"
+                           Foreground="Green" Width="100" Height="70" FontSize="48" FontWeight="Bold"/>
+                <TextBox DockPanel.Dock="Right" Style="{StaticResource App_TextBox}" 
+                         Width="200" Height="50" FontSize="36" FontWeight="Bold">Auto</TextBox>
+                
+                <DockPanel DockPanel.Dock="Right">
+                    <Border Style="{StaticResource App_Border}"
+                            DockPanel.Dock="Top" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <local:EngineerMode/>
+                    </Border>
+                    <Border Style="{StaticResource App_Border}" DockPanel.Dock="Bottom" Width="350" HorizontalAlignment="Right">
+                        <local:ImageCount/>    
+                    </Border>
+                </DockPanel>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Right" Width="410">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border Style="{StaticResource App_Border}" Grid.Row="0">
+                            <local:Communication Margin="5" Width="170" Height="90"/>
+                        </Border>
+                        <Border Style="{StaticResource App_Border}" Grid.Row="1">
+                            <local:Control Margin="5" Width="170" Height="200"/>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border Style="{StaticResource App_Border}" Grid.Row="0">
+                            <local:ImageSetting Margin="5" Width="200" Height="230"/>
+                        </Border>
+                        <Border Style="{StaticResource App_Border}" Grid.Row="1">
+                            <local:CameraSetting Margin="5" Width="200" Height="230"/>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Left">
+                <Border Grid.Row="0" Style="{StaticResource App_Border}">
+                    <Image x:Name="image" VerticalAlignment="Top" Width="462" Height="595"/>
+                </Border>
+            </DockPanel>
+        </DockPanel>
         <local:SubView Grid.Row="1"/>
     </Grid>
 </Window>
