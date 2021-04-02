@@ -9,41 +9,75 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
-        <!--<Style TargetType="Grid">
-            <Setter Property="Background" Value="Black"/>
-        </Style>-->
+        <Style TargetType="Border" BasedOn="{StaticResource App_Border}"/>
         <!--TextBox_Main-->
         <Style TargetType="TextBox" x:Key="App_TextBox">
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="FontSize" Value="18"/>
         </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource App_TextBox}"/>
         <!--Button_Main-->
         <Style TargetType="Button" x:Key="App_Button">
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Background" Value="DarkSlateGray"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightSlateGray"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource App_Button}"/>
+        <!--Text_Block_Main-->
         <Style TargetType="TextBlock" x:Key="App_TextBlock">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="Background" Value="Black"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="18"/>
         </Style>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource App_TextBlock}"/>
+        <!--Radio_Button_Main-->
         <Style TargetType="RadioButton" x:Key="App_RadioButton">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
+        <Style TargetType="RadioButton" BasedOn="{StaticResource App_RadioButton}"/>
+        <!--List_Box_Main-->
         <Style TargetType="ListBox" x:Key="App_ListBox">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
+        <Style TargetType="ListBox" BasedOn="{StaticResource App_ListBox}"/>
+        <!--Label_Main-->
         <Style TargetType="Label" x:Key="App_Label">
             <Setter Property="Foreground" Value="White"/>
         </Style>
+        <Style TargetType="Label" BasedOn="{StaticResource App_Label}"/>
+        <!--Image_Main-->
+        <Style TargetType="Image" x:Key="App_Image">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+        </Style>
+        <Style TargetType="Image" BasedOn="{StaticResource App_Image}"/>
     </Application.Resources>
 </Application>

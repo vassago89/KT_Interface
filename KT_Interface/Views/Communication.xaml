@@ -7,38 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="90" d:DesignWidth="170">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Image Margin="5" Width="24">
-                <Image.Source>
-                    <BitmapImage DecodePixelHeight="24"
-                                 UriSource="/Images/keyboard_cordless.png"/>
-                </Image.Source>
-            </Image>
-            <TextBlock Grid.Column="1" Style="{StaticResource App_TextBlock}">Communication</TextBlock>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Style="{StaticResource App_TextBlock}">Port</TextBlock>
-            <ListBox Style="{StaticResource App_ListBox}" Grid.Column="1" Height="16" Width="50"></ListBox>
-            <Button Grid.Column="2" Style="{StaticResource App_Button}" Width="50">설정</Button>
-        </Grid>
-        <DockPanel Grid.Row="2">
-            <TextBox DockPanel.Dock="Left" Style="{StaticResource App_TextBox}" Width="70">연결상태</TextBox>
-            <TextBox DockPanel.Dock="Right" Style="{StaticResource App_TextBox}">ONLINE</TextBox>
-        </DockPanel>
-            
+        <StackPanel>
+            <DockPanel>
+                <Image>
+                    <Image.Source>
+                        <BitmapImage UriSource="/Images/keyboard_cordless.png"/>
+                    </Image.Source>
+                </Image>
+                <TextBlock>Communication</TextBlock>
+            </DockPanel>
+            <!--<UniformGrid Columns="3">
+                <TextBlock>Port</TextBlock>
+                <TextBox/>
+                <Button>설정</Button>
+            </UniformGrid>-->
+            <UniformGrid Columns="2">
+                <TextBlock Text="Host"/>
+                <TextBox>ONLINE</TextBox>
+                <TextBlock Text="Inspector"/>
+                <TextBox>ONLINE</TextBox>
+                <TextBlock Text="Camera"/>
+                <TextBox>ONLINE</TextBox>
+                <TextBlock Text="Light"/>
+                <TextBox>ONLINE</TextBox>
+            </UniformGrid>
+        </StackPanel>
+        <Grid Background="Transparent"/>
     </Grid>
 </UserControl>

@@ -32,23 +32,23 @@
                                  UriSource="/Images/gears.png"/>
                 </Image.Source>
             </Image>
-            <TextBlock Grid.Column="1" Style="{StaticResource App_TextBlock}">Camera Setting</TextBlock>
+            <TextBlock Grid.Column="1">Camera Setting</TextBlock>
         </Grid>
-        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource App_TextBlock}">Mode</TextBlock>
-        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource App_TextBlock}">Delay</TextBlock>
-        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource App_TextBlock}">Frame Rate</TextBlock>
-        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource App_TextBlock}">Frame Count1</TextBlock>
-        <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource App_TextBlock}">Frame Count2</TextBlock>
-        <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource App_TextBlock}">Exposure</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0">Mode</TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0">Delay</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="0">Frame Rate</TextBlock>
+        <TextBlock Grid.Row="4" Grid.Column="0">Frame Count1</TextBlock>
+        <TextBlock Grid.Row="5" Grid.Column="0">Frame Count2</TextBlock>
+        <TextBlock Grid.Row="6" Grid.Column="0">Exposure</TextBlock>
         
-        <ListBox x:Name="listBox" Grid.Column="1"  Style="{StaticResource App_ListBox}" Height="16" Grid.Row="1" Width="100"/>
-        <ListBox x:Name="listBox1" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="2" Width="100"/>
-        <ListBox x:Name="listBox2" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="3" Width="100"/>
-        <ListBox x:Name="listBox3" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="4" Width="100"/>
-        <ListBox x:Name="listBox4" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="5" Width="100"/>
-        <ListBox x:Name="listBox5" Grid.Column="1" Style="{StaticResource App_ListBox}" Height="16" Grid.Row="6" Width="100"/>
+        <ListBox x:Name="listBox" Grid.Column="1"  Height="16" Grid.Row="1" Width="100"/>
+        <ListBox x:Name="listBox1" Grid.Column="1" Height="16" Grid.Row="2" Width="100"/>
+        <ListBox x:Name="listBox2" Grid.Column="1" Height="16" Grid.Row="3" Width="100"/>
+        <ListBox x:Name="listBox3" Grid.Column="1" Height="16" Grid.Row="4" Width="100"/>
+        <ListBox x:Name="listBox4" Grid.Column="1" Height="16" Grid.Row="5" Width="100"/>
+        <ListBox x:Name="listBox5" Grid.Column="1" Height="16" Grid.Row="6" Width="100"/>
         
-        <Button Style="{StaticResource App_Button}" Grid.Column="1" Grid.Row="7">
+        <Button Grid.Column="1" Grid.Row="7">
             <Button.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>

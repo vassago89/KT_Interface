@@ -4,101 +4,65 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KT_Interface.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="100">
+             mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Button x:Name="btn_comm_play" Style="{StaticResource App_Button}">
-            <Button.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Margin="5" Height="12" Width="12" Grid.Column="0">
+        <StackPanel>
+            <Button x:Name="btn_comm_play">
+                <DockPanel>
+                    <Image>
                         <Image.Source>
-                            <BitmapImage DecodePixelHeight="12"
-                                         UriSource="/Images/media_play.png"/>
+                            <BitmapImage UriSource="/Images/media_play.png"/>
                         </Image.Source>
                     </Image>
-                    <Label Grid.Column="1" Style="{StaticResource App_Label}">Play</Label>
-                </Grid>
-            </Button.Content>
-        </Button>
-        <Button x:Name="btn_comm_setting" Style="{StaticResource App_Button}" Grid.Row="1">
-            <Button.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Margin="5" Height="12" Width="12" Grid.Column="0">
+                    <TextBlock Text="Play"/>
+                </DockPanel>
+            </Button>
+            <Button>
+                <DockPanel>
+                    <Image>
                         <Image.Source>
-                            <BitmapImage DecodePixelHeight="12"
-                                         UriSource="/Images/gears.png"/>
+                            <BitmapImage UriSource="/Images/gears.png"/>
                         </Image.Source>
                     </Image>
-                    <Label Grid.Column="1" Style="{StaticResource App_Label}">Setting</Label>
-                </Grid>
-            </Button.Content>
-        </Button>
-        <Button x:Name="btn_comm_live" Style="{StaticResource App_Button}" Grid.Row="2">
-            <Button.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Margin="5" Height="12" Width="12" Grid.Column="0">
-                        <Image.Source>
-                            <BitmapImage DecodePixelHeight="12"
-                                         UriSource="/Images/videocamera.png"/>
-                        </Image.Source>
-                    </Image>
-                    <Label Grid.Column="1" Style="{StaticResource App_Label}">Live</Label>
-                </Grid>
-            </Button.Content>
-        </Button>
-        <Button x:Name="btn_comm_log" Style="{StaticResource App_Button}" Grid.Row="3">
-            <Button.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Margin="5" Height="12" Width="12" Grid.Column="0">
-                        <Image.Source>
-                            <BitmapImage DecodePixelHeight="12"
-                                         UriSource="/Images/folder_document.png"/>
-                        </Image.Source>
-                    </Image>
-                    <Label Grid.Column="1" Style="{StaticResource App_Label}">Log</Label>
-                </Grid>
-            </Button.Content>
-        </Button>
-        <Button x:Name="btn_comm_exit" Style="{StaticResource App_Button}" Grid.Row="4">
-            <Button.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Margin="5" Height="12" Width="12" Grid.Column="0">
-                        <Image.Source>
-                            <BitmapImage DecodePixelHeight="12"
-                                         UriSource="/Images/exit.png"/>
-                        </Image.Source>
-                    </Image>
-                    <Label Grid.Column="1" Style="{StaticResource App_Label}">Exit</Label>
-                </Grid>
-            </Button.Content>
-        </Button>
-        
+                    <TextBlock Text="Setting"/>
+                </DockPanel>
+            </Button>
+            <Button>
+                <Button.Content>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/videocamera.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock>Live</TextBlock>
+                    </DockPanel>
+                </Button.Content>
+            </Button>
+            <Button>
+                <Button.Content>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/folder_document.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock>Log</TextBlock>
+                    </DockPanel>
+                </Button.Content>
+            </Button>
+            <Button>
+                <Button.Content>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/exit.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock>Exit</TextBlock>
+                    </DockPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

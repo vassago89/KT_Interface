@@ -6,69 +6,52 @@
         xmlns:local="clr-namespace:KT_Interface.Views"
         mc:Ignorable="d"
         Title="Interface" Height="700" Width="1000"
+        WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         Background="Black">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <DockPanel LastChildFill="True" Grid.Row="0">
-            <DockPanel DockPanel.Dock="Top">
-                <TextBlock DockPanel.Dock="Left" Text="{Binding AppConfig.Title}"
-                           Style="{StaticResource App_TextBlock}"
-                           Foreground="Green" Width="100" Height="70" FontSize="48" FontWeight="Bold"/>
-                <TextBox DockPanel.Dock="Right" Style="{StaticResource App_TextBox}" 
-                         Width="200" Height="50" FontSize="36" FontWeight="Bold">Auto</TextBox>
-                
-                <DockPanel DockPanel.Dock="Right">
-                    <Border Style="{StaticResource App_Border}"
-                            DockPanel.Dock="Top" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center">
+                    <Border HorizontalAlignment="Right">
                         <local:EngineerMode/>
                     </Border>
-                    <Border Style="{StaticResource App_Border}" DockPanel.Dock="Bottom" Width="350" HorizontalAlignment="Right">
-                        <local:ImageCount/>    
+                    <Border>
+                        <local:ImageCount/>
                     </Border>
-                </DockPanel>
+                </StackPanel>
+                <TextBlock Text="OK" FontSize="48" FontWeight="Bold"/>
             </DockPanel>
-            <DockPanel DockPanel.Dock="Right" Width="410">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Border Style="{StaticResource App_Border}" Grid.Row="0">
-                            <local:Communication Margin="5" Width="170" Height="90"/>
-                        </Border>
-                        <Border Style="{StaticResource App_Border}" Grid.Row="1">
-                            <local:Control Margin="5" Width="170" Height="200"/>
-                        </Border>
-                    </Grid>
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Border Style="{StaticResource App_Border}" Grid.Row="0">
-                            <local:ImageSetting Margin="5" Width="200" Height="230"/>
-                        </Border>
-                        <Border Style="{StaticResource App_Border}" Grid.Row="1">
-                            <local:CameraSetting Margin="5" Width="200" Height="230"/>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Left">
-                <Border Grid.Row="0" Style="{StaticResource App_Border}">
-                    <Image x:Name="image" VerticalAlignment="Top" Width="462" Height="595"/>
-                </Border>
-            </DockPanel>
-        </DockPanel>
-        <local:SubView Grid.Row="1"/>
+        </Grid>
+        <TextBox Grid.Column="2" VerticalAlignment="Stretch" FontSize="48" FontWeight="Bold">Auto</TextBox>
+        <Grid Background="Transparent" Grid.Column="2"/>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Border>
+                <local:Communication Margin="5"/>
+            </Border>
+            <Border>
+                <local:Control Margin="5"/>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <Border>
+                <local:ImageSetting Margin="5"/>
+            </Border>
+            <Border>
+                <local:CameraSetting Margin="5"/>
+            </Border>
+        </StackPanel>
+        <Border Grid.Row="1">
+            <Image x:Name="image" VerticalAlignment="Top"/>
+        </Border>
     </Grid>
 </Window>

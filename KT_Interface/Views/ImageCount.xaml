@@ -4,26 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KT_Interface.Views"
-             mc:Ignorable="d" d:DesignWidth="350" Height="30">
+             mc:Ignorable="d" d:DesignWidth="350">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" x:Name="textBlock" Style="{StaticResource App_TextBlock}"
-                   HorizontalAlignment="Right" Text="OK"/>
-        <TextBox Grid.Column="1" x:Name="textBox" Style="{StaticResource App_TextBox}"
-                 Height="20" Text="250" Width="70"/>
-        <TextBlock Grid.Column="2" x:Name="textBlock1" Style="{StaticResource App_TextBlock}"
-                   Text="NG"/>
-        <TextBox Grid.Column="3" x:Name="textBox1" Style="{StaticResource App_TextBox}"
-                 Height="20" Text="0" Width="70"/>
-        <TextBlock Grid.Column="4" Text="Total" Style="{StaticResource App_TextBlock}"/>
-        <TextBox Grid.Column="5" x:Name="txt_image_cnt_total" Style="{StaticResource App_TextBox}" 
-                 Text="250" Height="20" Width="70"/>
+        <UniformGrid Columns="6" Rows="1">
+            <TextBlock Text="OK"/>
+            <TextBox Text="250"/>
+            <TextBlock Text="NG"/>
+            <TextBox Text="0"/>
+            <TextBlock Text="Total"/>
+            <TextBox Text="250"/>
+        </UniformGrid>
+        <Grid Background="Transparent"/>
     </Grid>
 </UserControl>

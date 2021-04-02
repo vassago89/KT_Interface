@@ -1,4 +1,5 @@
-﻿using KT_Interface.ViewModels;
+﻿using KT_Interface.Core;
+using KT_Interface.ViewModels;
 using KT_Interface.Views;
 using Newtonsoft.Json;
 using Prism.Ioc;
@@ -39,15 +40,16 @@ namespace KT_Interface
 
 		private void Register()
 		{
-			var config = new AppConfig();
-			if (File.Exists("AppConfig.json"))
-				config = JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText("AppConfig.json"));
-
-			config.Title = "Title 123";
-
 			ContainerRegistry.Container
-				.RegisterInstance(config)
-				.RegisterType<ShellViewModel>()
+				.RegisterInstance(
+                File.Exists("AppConfig.json") 
+                ? JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText("AppConfig.json"))
+                : new AppConfig())
+                .RegisterInstance(
+                File.Exists("CoreConfig.json")
+                ? JsonConvert.DeserializeObject<CoreConfig>(File.ReadAllText("CoreConfig.json"))
+                : new CoreConfig())
+                .RegisterType<ShellViewModel>()
 				.RegisterType<SubViewModel>();
 		}
 	}
