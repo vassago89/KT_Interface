@@ -37,7 +37,6 @@ namespace KT_Interface.Core.Services
 
     public class HostCommService
     {
-        private string _last;
         private GrabService _grabService;
         private LightControlService _lightControlService;
         private InspectService _inspectionCommService;
@@ -48,20 +47,29 @@ namespace KT_Interface.Core.Services
         private TcpListener _listener;
         private TcpClient _client;
 
+        private AppState _appState;
+
         public HostCommService(
             InspectService inspectionCommService,
             GrabService grabService,
             LightControlService lightControlService,
-            CoreConfig coreConfig, 
-            LogFactory factory)
+            AppState appState,
+            CoreConfig coreConfig)
         {
             _inspectionCommService = inspectionCommService;
             _grabService = grabService;
             _lightControlService = lightControlService;
 
+            _appState = appState;
+
             _coreConfig = coreConfig;
-            
-            _logger = factory.GetCurrentClassLogger();
+
+            _logger = LogManager.GetCurrentClassLogger();
+        }
+
+        public bool IsConnected()
+        {
+            return _client != null && _client.Connected;
         }
 
         public async Task Connect()
@@ -81,6 +89,16 @@ namespace KT_Interface.Core.Services
             {
                 _logger.Error(e);
             }
+        }
+
+        public bool Disconnect()
+        {
+            if (_listener == null)
+                return false;
+
+            _listener.Stop();
+            _listener = null;
+            return true;
         }
 
         private async static void AsyncTcpProcess(object o)
@@ -114,6 +132,16 @@ namespace KT_Interface.Core.Services
 
         private async Task DataRecived(string data)
         {
+            if (_appState.IsAutoEnabled == false
+                || _coreConfig.UseHost == false)
+                return;
+
+            if (_appState.IsManualEnabled == false
+                && _appState.IsGrabEnabled == true)
+            {
+                Send(EMachineCommand.Nak, EMachineMassage.Comm);
+            }
+
             var index = data.IndexOf('\n');
             if (index < 0 || index > data.Length)
             {
@@ -151,7 +179,11 @@ namespace KT_Interface.Core.Services
 
                     Send(EMachineCommand.Ack);
 
-                    _inspectionCommService.Start(grabInfo.Value, messages[1]);
+                    if (_coreConfig.UseInspector)
+                    {
+                        var result = _inspectionCommService.Inspect(grabInfo.Value, messages[1]);
+                        Send(EMachineCommand.Result, result);
+                    }
 
                     break;
                 case EHostCommand.Stop:

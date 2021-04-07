@@ -21,13 +21,14 @@ namespace KT_Interface.Core.Services
         GrabInfo _grabInfo;
 
         public Action<GrabInfo> ImageGrabbed { get; set; }
+        public Action<CameraParameterInfo> ParameterChanged { get; set; }
 
-        public GrabService(LogFactory factory)
+        public GrabService()
         {
             _baslerFactory = CameraFactory.Instance.Create(ECameraManufacturer.Basler);
             _hikFactory = CameraFactory.Instance.Create(ECameraManufacturer.Hik);
 
-            _logger = factory.GetCurrentClassLogger();
+            _logger = LogManager.GetCurrentClassLogger();
 
             _grabbing = false;
         }
@@ -41,6 +42,14 @@ namespace KT_Interface.Core.Services
             _logger.Info("GetDeviceInfos");
 
             return Infos;
+        }
+
+        public bool IsConnected()
+        {
+            if (_camera != null)
+                return _camera.IsConnected();
+
+            return false;
         }
 
         public async Task<GrabInfo?> Grab()
@@ -69,7 +78,7 @@ namespace KT_Interface.Core.Services
             }
         }
 
-        public bool StartGrab(int grabCount)
+        public bool StartGrab(int grabCount = -1)
         {
             if (_camera != null)
                 return _camera.StartGrab(grabCount);
@@ -90,7 +99,16 @@ namespace KT_Interface.Core.Services
         public bool SetParameter(ECameraParameter parameter, double value)
         {
             if (_camera != null)
-                return _camera.SetParameter(parameter, value);
+            {
+                if(_camera.SetParameter(parameter, value))
+                {
+                    if (ParameterChanged != null)
+                        ParameterChanged(GetParameterInfo());
+
+                    return true;
+                }
+            }
+                
 
             return false;
         }
@@ -106,7 +124,7 @@ namespace KT_Interface.Core.Services
         public bool SetAuto(ECameraAutoType type, ECameraAutoValue value)
         {
             if (_camera != null)
-                return _camera.SetAuto(type, value);
+               return _camera.SetAuto(type, value);
 
             return false;
         }
@@ -143,6 +161,14 @@ namespace KT_Interface.Core.Services
             return true;
         }
 
+        public CameraParameterInfo GetParameterInfo()
+        {
+            if (_camera != null && _camera.IsConnected())
+                return _camera.GetParameterInfo();
+
+            return null;
+        }
+
         public void Disconnect()
         {
             if (_camera != null)
@@ -154,7 +180,7 @@ namespace KT_Interface.Core.Services
             }
         }
 
-        public void Grabbed(GrabInfo grabInfo)
+        private void Grabbed(GrabInfo grabInfo)
         {
             if (_grabbing)
             {

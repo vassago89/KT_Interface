@@ -28,12 +28,14 @@ namespace KT_Interface.Core.CameraFactorys
                 if (MyCamera.MV_GIGE_DEVICE == stDevInfo.nTLayerType)
                 {
                     var stGigEDeviceInfo = (MyCamera.MV_GIGE_DEVICE_INFO)MyCamera.ByteToStruct(stDevInfo.SpecialInfo.stGigEInfo, typeof(MyCamera.MV_GIGE_DEVICE_INFO));
-                    cameraInfos.Add(new CameraInfo(ECameraManufacturer.Hik, ECameraType.GIGE, stGigEDeviceInfo.chModelName, stGigEDeviceInfo.chSerialNumber));
+                    if (stGigEDeviceInfo.chManufacturerName == "Hikvision")
+                        cameraInfos.Add(new CameraInfo(ECameraManufacturer.Hik, ECameraType.GIGE, stGigEDeviceInfo.chModelName, stGigEDeviceInfo.chSerialNumber));
                 }
                 else if (MyCamera.MV_USB_DEVICE == stDevInfo.nTLayerType)
                 {
                     var stUsb3DeviceInfo = (MyCamera.MV_USB3_DEVICE_INFO)MyCamera.ByteToStruct(stDevInfo.SpecialInfo.stUsb3VInfo, typeof(MyCamera.MV_USB3_DEVICE_INFO));
-                    cameraInfos.Add(new CameraInfo(ECameraManufacturer.Hik, ECameraType.USB, stUsb3DeviceInfo.chModelName, stUsb3DeviceInfo.chSerialNumber));
+                    if (stUsb3DeviceInfo.chManufacturerName == "Hikvision")
+                        cameraInfos.Add(new CameraInfo(ECameraManufacturer.Hik, ECameraType.USB, stUsb3DeviceInfo.chModelName, stUsb3DeviceInfo.chSerialNumber));
                 }
             }
 

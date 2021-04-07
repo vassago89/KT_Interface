@@ -67,23 +67,21 @@ namespace Tutorial
             InitializeComponent();
 
             CoreConfig config = new CoreConfig();
-            LogFactory factory = new LogFactory();
-
-            var grabService = new GrabService(factory);
+            
+            var grabService = new GrabService();
 
             grabService.ImageGrabbed += ImageGrabbed;
 
-            var infos = grabService.GetDeviceInfos();
-            grabService.Connect(infos.First());
-            HostCommService service =
-                new HostCommService(
-                    new InspectService(config, factory),
-                    grabService,
-                    new LightControlService(config, factory),
-                    config, 
-                    factory);
+            //var infos = grabService.GetDeviceInfos();
+            //grabService.Connect(infos.First());
+            //HostCommService service =
+            //    new HostCommService(
+            //        new InspectService(config),
+            //        grabService,
+            //        new LightControlService(config),
+            //        config);
 
-            service.Connect();
+            //service.Connect();
 
             _grabCommand = new DelegateCommand(() =>
             {

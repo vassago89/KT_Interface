@@ -105,6 +105,7 @@
     <Compile Include="Services\HostCommService.cs" />
     <Compile Include="Services\InspectService.cs" />
     <Compile Include="Services\LightControlService.cs" />
+    <Compile Include="AppState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

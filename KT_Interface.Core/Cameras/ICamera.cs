@@ -9,7 +9,7 @@ namespace KT_Interface.Core.Cameras
 {
     public enum ECameraParameter
     {
-        Exposure, Gain, FrameRate, TriggerDelay
+        Width, Height, OffsetX, OffsetY, Exposure, Gain, FrameRate, TriggerDelay
     }
 
     public enum ECameraAutoType
@@ -28,6 +28,7 @@ namespace KT_Interface.Core.Cameras
         bool StartGrab(int grabCount = -1);
         bool Stop();
         bool Disconnect();
+        bool IsConnected();
         
         bool SetParameter(ECameraParameter parameter, double value);
         bool SetTriggerMode(bool isTriggerMode);

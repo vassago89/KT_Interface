@@ -4,11 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KT_Interface.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="Interface" Height="700" Width="1000"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         Background="Black">
+    <Window.Resources>
+        <local:ResultColorConvereter x:Key="ResultColorConvereter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,42 +21,62 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <!--<ColumnDefinition Width="Auto"/>-->
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="2">
+        <Grid>
             <DockPanel>
                 <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center">
-                    <Border HorizontalAlignment="Right">
-                        <local:EngineerMode/>
-                    </Border>
+                    <!--<Border HorizontalAlignment="Right">
+                        <local:EngineerModeView/>
+                    </Border>-->
                     <Border>
-                        <local:ImageCount/>
+                        <local:ImageCountView/>
                     </Border>
                 </StackPanel>
-                <TextBlock Text="OK" FontSize="48" FontWeight="Bold"/>
+                <TextBlock Text="{Binding InspectResult.Judgement}" FontSize="48" FontWeight="Bold" Foreground="{Binding InspectResult, Converter={StaticResource ResultColorConvereter}}"/>
             </DockPanel>
         </Grid>
-        <TextBox Grid.Column="2" VerticalAlignment="Stretch" FontSize="48" FontWeight="Bold">Auto</TextBox>
-        <Grid Background="Transparent" Grid.Column="2"/>
+        <ToggleButton Grid.Column="2" IsChecked="{Binding StateStore.OnManual}">
+            <TextBlock Text="{Binding StateStore.Mode}" VerticalAlignment="Stretch" FontSize="48" FontWeight="Bold"/>
+            <ToggleButton.Style>
+                <Style  TargetType="ToggleButton">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="Gray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToggleButton.Style>
+        </ToggleButton>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Border>
-                <local:Communication Margin="5"/>
+                <local:CommunicationView Margin="4"/>
             </Border>
             <Border>
-                <local:Control Margin="5"/>
-            </Border>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="2">
-            <Border>
-                <local:ImageSetting Margin="5"/>
-            </Border>
-            <Border>
-                <local:CameraSetting Margin="5"/>
+                <local:ControlView Margin="4"/>
             </Border>
         </StackPanel>
         <Border Grid.Row="1">
-            <Image x:Name="image" VerticalAlignment="Top"/>
+            <Border BorderBrush="{Binding InspectResult, Converter={StaticResource ResultColorConvereter}}" BorderThickness="0">
+                <Grid>
+                    <local:ImageView/>
+                    <local:SettingView Margin="4" Visibility="{Binding StateStore.IsSettingMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </Grid>
+            </Border>
         </Border>
     </Grid>
 </Window>

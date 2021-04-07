@@ -18,9 +18,9 @@ namespace KT_Interface.Views
 	/// <summary>
 	/// ImageCount.xaml에 대한 상호 작용 논리
 	/// </summary>
-	public partial class ImageCount : UserControl
+	public partial class ImageCountView : UserControl
 	{
-		public ImageCount()
+		public ImageCountView()
 		{
 			InitializeComponent();
 		}

@@ -51,7 +51,15 @@ namespace KT_Interface.Core.Cameras
         {
             Handle.Free();
         }
-        
+
+        public bool IsConnected()
+        {
+            if (_device != null)
+                return _device.MV_CC_IsDeviceConnected_NET();
+
+            return false;
+        }
+
         public bool StartGrab(int grabCount = -1)
         {
             _count = 0;
@@ -143,6 +151,18 @@ namespace KT_Interface.Core.Cameras
             int nRet = 0;
             switch (parameter)
             {
+                case ECameraParameter.OffsetX:
+                    nRet = _device.MV_CC_SetAOIoffsetX_NET((uint)Math.Round(value));
+                    break;
+                case ECameraParameter.OffsetY:
+                    nRet = _device.MV_CC_SetAOIoffsetY_NET((uint)Math.Round(value));
+                    break;
+                case ECameraParameter.Width:
+                    nRet = _device.MV_CC_SetWidth_NET((uint)Math.Round(value));
+                    break;
+                case ECameraParameter.Height:
+                    nRet = _device.MV_CC_SetHeight_NET((uint)Math.Round(value));
+                    break;
                 case ECameraParameter.Exposure:
                     nRet = _device.MV_CC_SetExposureTime_NET((float)value);
                     break;
@@ -249,8 +269,22 @@ namespace KT_Interface.Core.Cameras
 
         public CameraParameterInfo GetParameterInfo()
         {
+            var triggerMode = new MyCamera.MVCC_ENUMVALUE();
+            _device.MV_CC_GetTriggerMode_NET(ref triggerMode);
+
+            return new CameraParameterInfo(
+                triggerMode.nCurValue == (uint)MyCamera.MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON,
+                GetParameterDictionary(),
+                GetAutoValueDictionary());
+        }
+
+        private IDictionary<ECameraParameter, CameraParameter> GetParameterDictionary()
+        {
+            var dictionary = new Dictionary<ECameraParameter, CameraParameter>();
             var width = new MyCamera.MVCC_INTVALUE();
             var height = new MyCamera.MVCC_INTVALUE();
+            var offsetX = new MyCamera.MVCC_INTVALUE();
+            var offsetY = new MyCamera.MVCC_INTVALUE();
             var exposure = new MyCamera.MVCC_FLOATVALUE();
             var gain = new MyCamera.MVCC_FLOATVALUE();
             var frameRate = new MyCamera.MVCC_FLOATVALUE();
@@ -258,24 +292,23 @@ namespace KT_Interface.Core.Cameras
 
             _device.MV_CC_GetWidth_NET(ref width);
             _device.MV_CC_GetHeight_NET(ref height);
+            _device.MV_CC_GetAOIoffsetX_NET(ref offsetX);
+            _device.MV_CC_GetAOIoffsetY_NET(ref offsetY);
             _device.MV_CC_GetExposureTime_NET(ref exposure);
             _device.MV_CC_GetGain_NET(ref gain);
             _device.MV_CC_GetFrameRate_NET(ref frameRate);
             _device.MV_CC_GetTriggerDelay_NET(ref triggerDelay);
 
-            var triggerMode = new MyCamera.MVCC_ENUMVALUE();
-            _device.MV_CC_GetTriggerMode_NET(ref triggerMode);
-
-
-            return new CameraParameterInfo(
-                new CameraParameter(width.nCurValue, width.nMin, width.nMax),
-                new CameraParameter(height.nCurValue, height.nMin, height.nMax),
-                new CameraParameter(exposure.fCurValue, exposure.fMin, exposure.fMax),
-                new CameraParameter(gain.fCurValue, gain.fMin, gain.fMax),
-                new CameraParameter(frameRate.fCurValue, frameRate.fMin, frameRate.fMax),
-                new CameraParameter(triggerDelay.fCurValue, triggerDelay.fMin, triggerDelay.fMax),
-                triggerMode.nCurValue == (uint)MyCamera.MV_CAM_TRIGGER_MODE.MV_TRIGGER_MODE_ON,
-                GetAutoValueDictionary());
+            dictionary[ECameraParameter.Width] = new CameraParameter(width.nCurValue, width.nMin, width.nMax);
+            dictionary[ECameraParameter.Height] = new CameraParameter(height.nCurValue, height.nMin, height.nMax);
+            dictionary[ECameraParameter.OffsetX] = new CameraParameter(offsetX.nCurValue, offsetX.nMin, offsetX.nMax);
+            dictionary[ECameraParameter.OffsetY] = new CameraParameter(offsetY.nCurValue, offsetY.nMin, offsetY.nMax);
+            dictionary[ECameraParameter.Exposure] = new CameraParameter(exposure.fCurValue, exposure.fMin, exposure.fMax);
+            dictionary[ECameraParameter.Gain] = new CameraParameter(gain.fCurValue, gain.fMin, gain.fMax);
+            dictionary[ECameraParameter.FrameRate] = new CameraParameter(frameRate.fCurValue, frameRate.fMin, frameRate.fMax);
+            dictionary[ECameraParameter.TriggerDelay] = new CameraParameter(triggerDelay.fCurValue, triggerDelay.fMin, triggerDelay.fMax);
+            
+            return dictionary;
         }
 
         private IDictionary<ECameraAutoType, ECameraAutoValue> GetAutoValueDictionary()

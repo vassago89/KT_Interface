@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace KT_Interface.Views
 {
 	/// <summary>
-	/// Communication.xaml에 대한 상호 작용 논리
+	/// Control.xaml에 대한 상호 작용 논리
 	/// </summary>
-	public partial class Communication : UserControl
+	public partial class ControlView : UserControl
 	{
-		public Communication()
+		public ControlView()
 		{
 			InitializeComponent();
 		}

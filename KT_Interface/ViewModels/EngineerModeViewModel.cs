@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KT_Interface
+namespace KT_Interface.ViewModels
 {
-    public class AppConfig
+    class EngineerModeViewModel
     {
-        public string Title { get; set; }
-
-
     }
 }

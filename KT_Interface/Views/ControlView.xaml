@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="KT_Interface.Views.ControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KT_Interface.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+    <Grid>
+        <StackPanel>
+            <StackPanel Visibility="{Binding StateStore.OnManual, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel IsEnabled="{Binding StateStore.IsGrabEnabled}">
+                    <Button Command="{Binding GrabCommand}" IsEnabled="{Binding StateStore.IsLiveMode, Converter={StaticResource InverseBooleanConverter}}">
+                        <DockPanel>
+                            <Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Images/media_play.png"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Text="Grab"/>
+                        </DockPanel>
+                    </Button>
+                    <Button Command="{Binding LiveCommand}" IsEnabled="{Binding StateStore.IsLiveMode, Converter={StaticResource InverseBooleanConverter}}">
+                        <Button.Content>
+                            <DockPanel>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/videocamera.png"/>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock>Live</TextBlock>
+                            </DockPanel>
+                        </Button.Content>
+                    </Button>
+                    <Button Command="{Binding StopCommand}" IsEnabled="{Binding StateStore.IsLiveMode}">
+                        <Button.Content>
+                            <DockPanel>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/videocamera.png"/>
+                                    </Image.Source>
+                                </Image>
+                                <TextBlock>Stop</TextBlock>
+                            </DockPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <ToggleButton IsChecked="{Binding StateStore.IsSettingMode}">
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/gears.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="Setting"/>
+                    </DockPanel>
+                </ToggleButton>
+            </StackPanel>
+            <Button>
+                <Button.Content>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/folder_document.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock>Log</TextBlock>
+                    </DockPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding ExitCommand}">
+                <Button.Content>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/exit.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock>Exit</TextBlock>
+                    </DockPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

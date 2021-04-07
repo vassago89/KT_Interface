@@ -62,5 +62,20 @@ namespace KT_Interface.Core.Infos
             _modelName = modelName;
             _serialNo = serialNo;
         }
+
+        public override bool Equals(object obj)
+        {
+            var compare = obj as CameraInfo;
+            if (compare == null)
+                return false;
+
+            if (Manufacturer == compare.Manufacturer
+                && CameraType == compare.CameraType
+                && ModelName == compare.ModelName
+                && SerialNo == compare.SerialNo)
+                return true;
+
+            return false;
+        }
     }
 }

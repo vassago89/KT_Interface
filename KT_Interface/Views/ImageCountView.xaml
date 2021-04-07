@@ -1,18 +1,22 @@
-﻿<UserControl x:Class="KT_Interface.Views.ImageCount"
+﻿<UserControl x:Class="KT_Interface.Views.ImageCountView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KT_Interface.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" d:DesignWidth="350">
     <Grid>
-        <UniformGrid Columns="6" Rows="1">
-            <TextBlock Text="OK"/>
-            <TextBox Text="250"/>
-            <TextBlock Text="NG"/>
-            <TextBox Text="0"/>
+        <UniformGrid Columns="8" Rows="1">
             <TextBlock Text="Total"/>
-            <TextBox Text="250"/>
+            <TextBox Text="{Binding Total}"/>
+            <TextBlock Text="OK"/>
+            <TextBox Text="{Binding OK}"/>
+            <TextBlock Text="NG"/>
+            <TextBox Text="{Binding NG}"/>
+            <TextBlock Text="Skip"/>
+            <TextBox Text="{Binding Skip}"/>
         </UniformGrid>
         <Grid Background="Transparent"/>
     </Grid>

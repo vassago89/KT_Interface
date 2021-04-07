@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KT_Interface.Core.Infos
 {
-    public struct SerialInfo
+    public class SerialInfo
     {
         public string PortName { get; set; }
         public int BaudRate { get; set; }

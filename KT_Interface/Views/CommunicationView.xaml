@@ -1,9 +1,11 @@
-﻿<UserControl x:Class="KT_Interface.Views.Communication"
+﻿<UserControl x:Class="KT_Interface.Views.CommunicationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KT_Interface.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="90" d:DesignWidth="170">
     <Grid>
@@ -23,13 +25,13 @@
             </UniformGrid>-->
             <UniformGrid Columns="2">
                 <TextBlock Text="Host"/>
-                <TextBox>ONLINE</TextBox>
+                <TextBox Text="{Binding StateStore.HostInfo.Message, Mode=OneWay}" Background="{Binding StateStore.HostInfo.Brush}" Width="100"/>
                 <TextBlock Text="Inspector"/>
-                <TextBox>ONLINE</TextBox>
+                <TextBox Text="{Binding StateStore.InspectorInfo.Message, Mode=OneWay}" Background="{Binding StateStore.InspectorInfo.Brush}" Width="100"/>
                 <TextBlock Text="Camera"/>
-                <TextBox>ONLINE</TextBox>
+                <TextBox Text="{Binding StateStore.CameraInfo.Message, Mode=OneWay}" Background="{Binding StateStore.CameraInfo.Brush}" Width="100"/>
                 <TextBlock Text="Light"/>
-                <TextBox>ONLINE</TextBox>
+                <TextBox Text="{Binding StateStore.LightInfo.Message, Mode=OneWay}" Background="{Binding StateStore.LightInfo.Brush}" Width="100"/>
             </UniformGrid>
         </StackPanel>
         <Grid Background="Transparent"/>

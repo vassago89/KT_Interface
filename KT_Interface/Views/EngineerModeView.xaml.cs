@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace KT_Interface.Views
 {
 	/// <summary>
-	/// CameraSetting.xaml에 대한 상호 작용 논리
+	/// EngineerMode.xaml에 대한 상호 작용 논리
 	/// </summary>
-	public partial class CameraSetting : UserControl
+	public partial class EngineerModeView : UserControl
 	{
-		public CameraSetting()
+		public EngineerModeView()
 		{
 			InitializeComponent();
 		}

@@ -1,8 +1,10 @@
 ﻿using KT_Interface.Core;
+using KT_Interface.Core.Services;
 using KT_Interface.ViewModels;
 using KT_Interface.Views;
 using Newtonsoft.Json;
 using Prism.Ioc;
+using Prism.Unity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,45 +14,80 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using NLog;
+using System.Threading;
+using System.Windows.Data;
 
 namespace KT_Interface
 {
-	/// <summary>
-	/// App.xaml에 대한 상호 작용 논리
-	/// </summary>
-	public partial class App : Application
+    [ValueConversion(typeof(bool), typeof(bool))]
+    public class InverseBooleanConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            if (targetType != typeof(bool))
+                throw new InvalidOperationException("The target must be a boolean");
+
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// App.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class App : PrismApplication
 	{
-		protected override void OnStartup(StartupEventArgs e)
+        private CancellationTokenSource _cts;
+
+        protected override void OnExit(ExitEventArgs e)
 		{
-			base.OnStartup(e);
+            File.WriteAllText("CoreConfig.json", JsonConvert.SerializeObject(Container.Resolve<CoreConfig>()));
 
-			Register();
-
-			var shell = new ShellView();
-			shell.ShowDialog();
+            base.OnExit(e);
 		}
 
-		protected override void OnExit(ExitEventArgs e)
-		{
-			var config = ContainerRegistry.Container.Resolve<AppConfig>();
-			File.WriteAllText("AppConfig.json", JsonConvert.SerializeObject(config));
-			
-			base.OnExit(e);
-		}
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            _cts = new CancellationTokenSource();
 
-		private void Register()
-		{
-			ContainerRegistry.Container
-				.RegisterInstance(
-                File.Exists("AppConfig.json") 
-                ? JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText("AppConfig.json"))
-                : new AppConfig())
+            containerRegistry
                 .RegisterInstance(
                 File.Exists("CoreConfig.json")
                 ? JsonConvert.DeserializeObject<CoreConfig>(File.ReadAllText("CoreConfig.json"))
                 : new CoreConfig())
-                .RegisterType<ShellViewModel>()
-				.RegisterType<SubViewModel>();
-		}
-	}
+                .RegisterInstance(_cts)
+                .Register<CancellationToken>(i => _cts.Token)
+                .RegisterSingleton<AppState>()
+                .RegisterSingleton<StateStore>()
+                .RegisterSingleton<GrabService>()
+                .RegisterSingleton<HostCommService>()
+                .RegisterSingleton<InspectService>()
+                .RegisterSingleton<LightControlService>();
+
+            var config = Container.Resolve<CoreConfig>();
+            if (config.CameraInfo != null)
+                Container.Resolve<GrabService>().Connect(config.CameraInfo);
+                
+            if (config.LightSerialInfo != null)
+                Container.Resolve<LightControlService>().Connect();
+
+            Container.Resolve<HostCommService>().Connect();
+        }
+
+        protected override Window CreateShell()
+        {
+            return new ShellView();
+        }
+    }
 }

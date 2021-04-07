@@ -32,20 +32,23 @@ namespace KT_Interface.Core.Cameras
             _converter.OutputPixelFormat = Basler.Pylon.PixelType.RGB8packed;
         }
 
+        public bool IsConnected()
+        {
+            if (_camera != null)
+                return _camera.IsConnected;
+
+            return false;
+        }
+
         public bool Disconnect()
         {
-            if (Stop() == false)
+            Stop();
+
+            if (_camera.IsOpen == false)
                 return false;
 
-            if (_camera.IsOpen)
-                _camera.Close();
-            else
-                return false;
-
-            if (_camera.IsConnected)
-                _camera.Dispose();
-            else
-                return false;
+            _camera.Close();
+            _camera.Dispose(); 
 
             return true;
         }
@@ -53,32 +56,55 @@ namespace KT_Interface.Core.Cameras
         public CameraParameterInfo GetParameterInfo()
         {
             return new CameraParameterInfo(
-                new CameraParameter(
+                _camera.Parameters[PLCamera.TriggerMode].GetValue() == PLCamera.TriggerMode.On,
+                GetParameterDictionary(),
+                GetAutoValueDictionary());
+        }
+
+        private IDictionary<ECameraParameter, CameraParameter> GetParameterDictionary()
+        {
+            var dictionary = new Dictionary<ECameraParameter, CameraParameter>();
+            dictionary[ECameraParameter.Width] = new CameraParameter(
                     _camera.Parameters[PLCamera.Width].GetValue(),
                     _camera.Parameters[PLCamera.Width].GetMinimum(),
-                    _camera.Parameters[PLCamera.Width].GetMaximum()),
-                new CameraParameter(
+                    _camera.Parameters[PLCamera.Width].GetMaximum());
+
+            dictionary[ECameraParameter.Height] = new CameraParameter(
                     _camera.Parameters[PLCamera.Height].GetValue(),
                     _camera.Parameters[PLCamera.Height].GetMinimum(),
-                    _camera.Parameters[PLCamera.Height].GetMaximum()),
-                new CameraParameter(
+                    _camera.Parameters[PLCamera.Height].GetMaximum());
+
+            dictionary[ECameraParameter.OffsetX] = new CameraParameter(
+                    _camera.Parameters[PLCamera.OffsetX].GetValue(),
+                    _camera.Parameters[PLCamera.OffsetX].GetMinimum(),
+                    _camera.Parameters[PLCamera.OffsetX].GetMaximum());
+
+            dictionary[ECameraParameter.OffsetY] = new CameraParameter(
+                    _camera.Parameters[PLCamera.OffsetY].GetValue(),
+                    _camera.Parameters[PLCamera.OffsetY].GetMinimum(),
+                    _camera.Parameters[PLCamera.OffsetY].GetMaximum());
+
+            dictionary[ECameraParameter.Exposure] = new CameraParameter(
                     _camera.Parameters[PLCamera.ExposureTime].GetValue(),
                     _camera.Parameters[PLCamera.ExposureTime].GetMinimum(),
-                    _camera.Parameters[PLCamera.ExposureTime].GetMaximum()),
-                new CameraParameter(
+                    _camera.Parameters[PLCamera.ExposureTime].GetMaximum());
+
+            dictionary[ECameraParameter.Gain] = new CameraParameter(
                     _camera.Parameters[PLCamera.Gain].GetValue(),
                     _camera.Parameters[PLCamera.Gain].GetMinimum(),
-                    _camera.Parameters[PLCamera.Gain].GetMaximum()),
-                new CameraParameter(
+                    _camera.Parameters[PLCamera.Gain].GetMaximum());
+
+            dictionary[ECameraParameter.FrameRate] = new CameraParameter(
                     _camera.Parameters[PLCamera.AcquisitionFrameRate].GetValue(),
                     _camera.Parameters[PLCamera.AcquisitionFrameRate].GetMinimum(),
-                    _camera.Parameters[PLCamera.AcquisitionFrameRate].GetMaximum()),
-                new CameraParameter(
+                    _camera.Parameters[PLCamera.AcquisitionFrameRate].GetMaximum());
+
+            dictionary[ECameraParameter.TriggerDelay] = new CameraParameter(
                     _camera.Parameters[PLCamera.TriggerDelay].GetValue(),
                     _camera.Parameters[PLCamera.TriggerDelay].GetMinimum(),
-                    _camera.Parameters[PLCamera.TriggerDelay].GetMaximum()),
-                _camera.Parameters[PLCamera.TriggerMode].GetValue() == PLCamera.TriggerMode.On,
-                GetAutoValueDictionary());
+                    _camera.Parameters[PLCamera.TriggerDelay].GetMaximum());
+
+            return dictionary;
         }
 
         private IDictionary<ECameraAutoType, ECameraAutoValue> GetAutoValueDictionary()
@@ -159,6 +185,14 @@ namespace KT_Interface.Core.Cameras
         {
             switch (parameter)
             {
+                case ECameraParameter.OffsetX:
+                    return _camera.Parameters[PLCamera.OffsetX].TrySetValue((long)Math.Round(value));
+                case ECameraParameter.OffsetY:
+                    return _camera.Parameters[PLCamera.OffsetY].TrySetValue((long)Math.Round(value));
+                case ECameraParameter.Width:
+                    return _camera.Parameters[PLCamera.Width].TrySetValue((long)Math.Round(value));
+                case ECameraParameter.Height:
+                    return _camera.Parameters[PLCamera.Height].TrySetValue((long)Math.Round(value));
                 case ECameraParameter.Exposure:
                     return _camera.Parameters[PLCamera.ExposureTime].TrySetValue(value);
                 case ECameraParameter.Gain:
@@ -168,7 +202,7 @@ namespace KT_Interface.Core.Cameras
                 case ECameraParameter.TriggerDelay:
                     return _camera.Parameters[PLCamera.TriggerDelay].TrySetValue(value);
             }
-            
+
             return false;
         }
 

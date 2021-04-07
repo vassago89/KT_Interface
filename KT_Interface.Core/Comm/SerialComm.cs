@@ -20,6 +20,15 @@ namespace KT_Interface.Core.Comm
             return _port.IsOpen;
         }
 
+        public bool Disconnect()
+        {
+            if (_port == null)
+                return false;
+
+            _port.Close();
+            return true;
+        }
+
         private void PortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var port = (SerialPort)sender;
@@ -30,14 +39,15 @@ namespace KT_Interface.Core.Comm
 
         public bool Write(string str)
         {
-            if (_port == null ||_port.IsOpen == false)
-                return false;
+            lock (this)
+            {
+                if (_port == null || _port.IsOpen == false)
+                    return false;
 
-            _port.Write(str);
+                _port.Write(str);
 
-            return true;
+                return true;
+            }
         }
-
-
     }
 }

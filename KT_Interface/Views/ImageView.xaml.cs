@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 
 namespace KT_Interface.Views
 {
-	/// <summary>
-	/// EngineerMode.xaml에 대한 상호 작용 논리
-	/// </summary>
-	public partial class EngineerMode : UserControl
-	{
-		public EngineerMode()
-		{
-			InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// ImaveView.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class ImageView : UserControl
+    {
+        public ImageView()
+        {
+            InitializeComponent();
+        }
+    }
 }

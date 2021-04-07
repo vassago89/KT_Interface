@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Net.Sockets;
+using System.Net.NetworkInformation;
 
 namespace KT_Interface.Core.Services
 {
@@ -20,24 +21,44 @@ namespace KT_Interface.Core.Services
         
     }
 
+    public enum EJudgement
+    {
+        OK, NG, SKIP
+    }
+
+    public class InspectResult
+    {
+        public EJudgement Judgement { get; set; }
+        public string WaferID { get; set; }
+        public Rect? Rect { get; set; }
+
+        public InspectResult(EJudgement judgement, string _waferID = null, Rect? rect = null)
+        {
+            Judgement = judgement;
+            WaferID = _waferID;
+            Rect = rect;
+        }
+    }
+
     public class InspectService
     {
+        public Action<InspectResult> Inspected { get; set; }
+
         CoreConfig _coreConfig;
         ILogger _logger;
 
         Mat _mat;
 
         public InspectService(
-            CoreConfig coreConfig, 
-            LogFactory factory)
+            CoreConfig coreConfig)
         {
             _mat = null;
 
             _coreConfig = coreConfig;
-            _logger = factory.GetCurrentClassLogger();
+            _logger = LogManager.GetCurrentClassLogger();
         }
         
-        public bool Start(GrabInfo grabInfo, string waferID = null)
+        public bool Inspect(GrabInfo grabInfo, string waferID = null)
         {
             if (_mat == null || _mat.Cols != grabInfo.Width || _mat.Rows != grabInfo.Height || _mat.Channels() != grabInfo.Channels)
             {
@@ -53,7 +74,6 @@ namespace KT_Interface.Core.Services
             }
 
             Marshal.Copy(grabInfo.Data, 0, _mat.Data, grabInfo.Data.Length);
-            //_mat.SetArray(grabInfo.Data);
 
             if (Directory.Exists(_coreConfig.TempPath) == false)
                 Directory.CreateDirectory(_coreConfig.TempPath);
@@ -66,38 +86,67 @@ namespace KT_Interface.Core.Services
             imagePath = Path.GetFullPath(imagePath);
             _mat.ImWrite(imagePath);
 
-            var result = Send(imagePath);
+            var response = Send(imagePath);
+            if (response == null)
+            {
+                if (Inspected != null)
+                    Inspected(new InspectResult(EJudgement.SKIP));
+
+                return false;
+            }
+
+            if (Inspected != null)
+                Inspected(new InspectResult(EJudgement.OK));
 
             return true;
+        }
+
+        public bool IsConnected()
+        {
+            try
+            {
+                lock (this)
+                {
+                    using (var client = new TcpClient("localhost", _coreConfig.InspectorPort))
+                        return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         private string Send(string imagePath)
         {
             try
             {
-                var client = new TcpClient();
-                client.Connect("localhost", _coreConfig.InspectorPort);
-                var stream = client.GetStream();
+                lock (this)
+                {
+                    var client = new TcpClient();
+                    client.Connect("localhost", _coreConfig.InspectorPort);
+                    var stream = client.GetStream();
 
-                try
-                {
-                    byte[] buff = Encoding.ASCII.GetBytes(string.Format("{0}", imagePath));
-                    stream.Write(buff, 0, buff.Length);
+                    try
+                    {
+                        byte[] buff = Encoding.ASCII.GetBytes(string.Format("{0}", imagePath));
+                        stream.Write(buff, 0, buff.Length);
 
-                    byte[] outbuf = new byte[1024];
-                    int nbytes = stream.Read(outbuf, 0, outbuf.Length);
-                    string output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
-                    return output;
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(e);
-                    return null;
-                }
-                finally
-                {
-                    stream.Close();
-                    client.Close();
+                        byte[] outbuf = new byte[1024];
+                        int nbytes = stream.Read(outbuf, 0, outbuf.Length);
+                        string output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
+                        return output;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error(e);
+                        return null;
+                    }
+                    finally
+                    {
+                        stream.Close();
+                        client.Close();
+                    }
                 }
             }
             catch (Exception e)
