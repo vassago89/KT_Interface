@@ -53,7 +53,10 @@ namespace KT_Interface.Services
 
         public double Scale
         {
-            get => (double)GetValue(ScaleProperty);
+            get 
+            {
+                return (double)GetValue(ScaleProperty);
+            }
             set
             {
                 SetValue(OverlayThicknessProperty, _defaultOverlayThickness / Math.Abs(value));
@@ -65,17 +68,22 @@ namespace KT_Interface.Services
 
         public double TranslateX
         {
-            get => (double)GetValue(TranslateXProperty);
+            get 
+            {
+                return (double)GetValue(TranslateXProperty);
+            }
             set
             {
                 SetValue(TranslateXProperty, value);
-                System.Diagnostics.Debug.WriteLine($"{value}");
             }
         }
 
         public double TranslateY
         {
-            get => (double)GetValue(TranslateYProperty);
+            get 
+            {
+                return (double)GetValue(TranslateYProperty);
+            }
             set
             {
                 SetValue(TranslateYProperty, value);
@@ -84,7 +92,10 @@ namespace KT_Interface.Services
 
         public double OverlayThickness
         {
-            get => (double)GetValue(OverlayThicknessProperty);
+            get
+            {
+                return (double)GetValue(OverlayThicknessProperty);
+            }
             set
             {
                 if (value < 1)
@@ -99,7 +110,10 @@ namespace KT_Interface.Services
 
         public double FontThickness
         {
-            get => (double)GetValue(FontThicknessProperty);
+            get 
+            {
+                return (double)GetValue(FontThicknessProperty);
+            }
             set
             {
                 if (value < 1)
