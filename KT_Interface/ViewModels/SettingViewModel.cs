@@ -64,8 +64,8 @@ namespace KT_Interface.ViewModels
             }
         }
 
-        public IEnumerable<ImageFormat> ImageFormats { get; }
-        public DelegateCommand ResultPathCommand { get; }
+        public IEnumerable<ImageFormat> ImageFormats { get; set; }
+        public DelegateCommand ResultPathCommand { get; set; }
 
         private string _resultPath;
         public string ResultPath
@@ -80,13 +80,13 @@ namespace KT_Interface.ViewModels
             }
         }
 
-        public IEnumerable<int> BaudRates { get; }
-        public IEnumerable<string> Ports { get; }
-        public IEnumerable<Parity> Parities { get; }
-        public IEnumerable<int> DataBits { get; }
-        public IEnumerable<StopBits> StopBits { get; }
+        public IEnumerable<int> BaudRates { get; set; }
+        public IEnumerable<string> Ports { get; set; }
+        public IEnumerable<Parity> Parities { get; set; }
+        public IEnumerable<int> DataBits { get; set; }
+        public IEnumerable<StopBits> StopBits { get; set; }
 
-        public IEnumerable<ESaveMode> SaveModes { get; }
+        public IEnumerable<ESaveMode> SaveModes { get; set; }
 
         private IEnumerable<CameraInfo> _cameraInfos;
         public IEnumerable<CameraInfo> CameraInfos
@@ -175,17 +175,17 @@ namespace KT_Interface.ViewModels
             }
         }
 
-        public IEnumerable<ECameraAutoValue> AutoValues { get; }
+        public IEnumerable<ECameraAutoValue> AutoValues { get; set; }
 
-        public DelegateCommand RefreshCommand { get; }
-        public DelegateCommand ConnectCommand { get; }
-        public DelegateCommand DisconnectCommand { get; }
-        public DelegateCommand<ECameraAutoType?> SetAutoCommand { get; }
+        public DelegateCommand RefreshCommand { get; set; }
+        public DelegateCommand ConnectCommand { get; set; }
+        public DelegateCommand DisconnectCommand { get; set; }
+        public DelegateCommand<ECameraAutoType?> SetAutoCommand { get; set; }
 
-        public DelegateCommand LightOnCommand { get; }
-        public DelegateCommand LightOffCommand { get; }
+        public DelegateCommand LightOnCommand { get; set; }
+        public DelegateCommand LightOffCommand { get; set; }
 
-        public DelegateCommand SaveCommand { get; }
+        public DelegateCommand SaveCommand { get; set; }
 
         public SettingViewModel(GrabService grabService, LightControlService lightControlService, StateStore stateStore, CoreConfig coreConfig)
         {

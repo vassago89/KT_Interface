@@ -21,10 +21,10 @@ namespace KT_Interface.ViewModels
             }
         }
 
-        public DelegateCommand GrabCommand { get; }
-        public DelegateCommand LiveCommand { get; }
-        public DelegateCommand StopCommand { get; }
-        public DelegateCommand ExitCommand { get; }
+        public DelegateCommand GrabCommand { get; set; }
+        public DelegateCommand LiveCommand { get; set; }
+        public DelegateCommand StopCommand { get; set; }
+        public DelegateCommand ExitCommand { get; set; }
 
         public ControlViewModel(
             GrabService grabService, 

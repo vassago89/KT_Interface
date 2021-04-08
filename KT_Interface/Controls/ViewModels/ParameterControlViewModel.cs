@@ -44,7 +44,7 @@ namespace KT_Interface.Controls.ViewModels
             }
         }
 
-        public DelegateCommand SetCommand { get; }
+        public DelegateCommand SetCommand { get; set; }
 
         public ParameterControlViewModel(GrabService grabService)
         {

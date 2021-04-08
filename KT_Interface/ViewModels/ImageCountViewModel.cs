@@ -63,7 +63,7 @@ namespace KT_Interface.ViewModels
             }
         }
 
-        public DelegateCommand ClearCommand { get; }
+        public DelegateCommand ClearCommand { get; set; }
 
         public ImageCountViewModel(InspectService inspectService)
         {
