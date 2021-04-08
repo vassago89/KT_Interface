@@ -32,10 +32,10 @@ namespace KT_Interface.Core.Services
         public string WaferID { get; set; }
         public Rect? Rect { get; set; }
 
-        public InspectResult(EJudgement judgement, string _waferID = null, Rect? rect = null)
+        public InspectResult(EJudgement judgement, string waferID = null, Rect? rect = null)
         {
             Judgement = judgement;
-            WaferID = _waferID;
+            WaferID = waferID;
             Rect = rect;
         }
     }
@@ -86,14 +86,20 @@ namespace KT_Interface.Core.Services
             imagePath = Path.GetFullPath(imagePath);
             _mat.ImWrite(imagePath);
 
-            var inspectResult = new InspectResult(EJudgement.SKIP);
+            var inspectResult = new InspectResult(EJudgement.NG);
 
             var response = Send(imagePath);
             if (string.IsNullOrEmpty(response))
+            {
                 inspectResult = new InspectResult(EJudgement.TIMEOUT);
-            
+            }
+            else
+            {
+                inspectResult = new InspectResult(EJudgement.OK, waferID);
+            }
+
             if (Inspected != null)
-                Inspected(new InspectResult(EJudgement.OK));
+                Inspected(inspectResult);
 
             return inspectResult;
         }

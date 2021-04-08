@@ -8,7 +8,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" d:DesignWidth="350">
     <Grid>
-        <UniformGrid Columns="8" Rows="1">
+        <UniformGrid Columns="10" Rows="1">
             <TextBlock Text="Total"/>
             <TextBox Text="{Binding Total}"/>
             <TextBlock Text="OK"/>
@@ -17,6 +17,8 @@
             <TextBox Text="{Binding NG}"/>
             <TextBlock Text="Skip"/>
             <TextBox Text="{Binding Skip}"/>
+            <TextBlock Text="Timeout"/>
+            <TextBox Text="{Binding Timeout}"/>
         </UniformGrid>
         <Grid Background="Transparent"/>
     </Grid>

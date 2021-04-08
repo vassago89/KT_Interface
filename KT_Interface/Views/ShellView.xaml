@@ -72,12 +72,10 @@
             </Border>
         </StackPanel>
         <Border Grid.Row="1">
-            <Border BorderBrush="{Binding Result, Converter={StaticResource ResultColorConvereter}}" BorderThickness="10">
-                <Grid>
-                    <local:ImageView/>
-                    <local:SettingView Margin="4" Visibility="{Binding StateStore.IsSettingMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </Grid>
-            </Border>
+            <Grid>
+                <local:ImageView/>
+                <local:SettingView Margin="4" Visibility="{Binding StateStore.IsSettingMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </Grid>
         </Border>
     </Grid>
 </Window>

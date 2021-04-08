@@ -21,6 +21,9 @@ namespace KT_Interface.Views
     /// </summary>
     public partial class ImageView : UserControl
     {
+        Point _initPos;
+        bool _isDrag;
+
         private ImageViewModel _viewModel;
 
         public ImageView()
@@ -37,24 +40,38 @@ namespace KT_Interface.Views
             _viewModel.ZoomFit();
         }
 
-        private void Canvas_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void Border_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-
+            var pos = e.GetPosition(sender as IInputElement);
+            if (e.Delta > 0)
+                _viewModel.ZoomService.ExecuteZoom(pos.X, pos.Y, 1.1f);
         }
 
-        private void Canvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void Border_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            var pos = e.GetPosition(sender as IInputElement);
+            _initPos = pos;
+            _isDrag = true;
         }
 
-        private void Canvas_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
+            _isDrag = false;
+        }
+        
+        private void Border_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isDrag == false)
+                return;
 
+            var pos = e.GetPosition(sender as IInputElement);
+            _viewModel.ZoomService.TranslateX = pos.X - _initPos.X;
+            _viewModel.ZoomService.TranslateY = pos.Y - _initPos.Y;
         }
 
-        private void Canvas_PreviewMouseMove(object sender, MouseEventArgs e)
+        private void Border_MouseLeave(object sender, MouseEventArgs e)
         {
-
+            _isDrag = false;
         }
     }
 }

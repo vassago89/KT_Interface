@@ -266,12 +266,15 @@ namespace KT_Interface.ViewModels
             });
 
             var temp = new byte[coreConfig.LightNum];
-            Array.Copy(coreConfig.LightValues, temp, coreConfig.LightNum);
+            if (coreConfig.LightValues != null)
+                Array.Copy(coreConfig.LightValues, temp, coreConfig.LightNum);
 
             LightNum = coreConfig.LightNum;
             if (coreConfig.LightValues != null)
+            {
                 for (int i = 0; i < LightNum; i++)
                     _lightValues[i].Value = temp[i];
+            }
 
             if (grabService.IsConnected())
                 ParameterInfo = grabService.GetParameterInfo();

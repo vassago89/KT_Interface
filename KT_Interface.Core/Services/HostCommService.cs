@@ -182,24 +182,24 @@ namespace KT_Interface.Core.Services
 
                     if (_coreConfig.UseInspector)
                     {
-                        var result = _inspectionCommService.Inspect(grabInfo.Value, messages[1]);
-                        SendResult(EMachineCommand.Result, result);
-                        break;
+                        SendResult(EMachineCommand.Result, _inspectionCommService.Inspect(grabInfo.Value, messages[1]));
                     }
-
-                    Send(EMachineCommand.Nak, EMachineMassage.Comm);
-
+                    else
+                    {
+                        var result = new InspectResult(EJudgement.SKIP);
+                        SendResult(EMachineCommand.Result, result);
+                        if (_inspectionCommService.Inspected != null)
+                            _inspectionCommService.Inspected(result);
+                    }
                     break;
                 case EHostCommand.Stop:
-                    
+                    _grabService.Stop();
                     if (_lightControlService.LightOff() == false)
                     {
                         Send(EMachineCommand.Nak, EMachineMassage.Light);
                         return;
                     }
-
                     Send(EMachineCommand.Ack);
-
                     break;
                 case EHostCommand.Req_result:
                     break;

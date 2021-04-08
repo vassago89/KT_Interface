@@ -46,6 +46,8 @@ namespace KT_Interface.ViewModels
             ZoomService = zoomService;
 
             ZoomFitCommand = new DelegateCommand(ZoomFit);
+            ZoomInCommand = new DelegateCommand(ZoomIn);
+            ZoomOutCommand = new DelegateCommand(ZoomOut);
         }
 
         private void ImageGrabbed(GrabInfo grabInfo)
@@ -72,9 +74,7 @@ namespace KT_Interface.ViewModels
                 ImageSource = source;
 
                 if (zoomFitRequired)
-                {
                     FrameworkElement.Dispatcher.Invoke(ZoomFit);
-                }
             }
         }
 
@@ -82,6 +82,16 @@ namespace KT_Interface.ViewModels
         {
             if (ImageSource != null)
                 ZoomService.ZoomFit(FrameworkElement.ActualWidth, FrameworkElement.ActualHeight, _imageSource.Width, _imageSource.Height);
+        }
+
+        public void ZoomIn()
+        {
+            ZoomService.ZoomIn(FrameworkElement.ActualWidth, FrameworkElement.ActualHeight);
+        }
+
+        public void ZoomOut()
+        {
+            ZoomService.ZoomOut(FrameworkElement.ActualWidth, FrameworkElement.ActualHeight);
         }
     }
 }

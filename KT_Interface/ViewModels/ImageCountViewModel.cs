@@ -63,6 +63,19 @@ namespace KT_Interface.ViewModels
             }
         }
 
+        private int _timeout;
+        public int Timeout
+        {
+            get
+            {
+                return _timeout;
+            }
+            set
+            {
+                SetProperty(ref _timeout, value);
+            }
+        }
+
         public DelegateCommand ClearCommand { get; set; }
 
         public ImageCountViewModel(InspectService inspectService)
@@ -71,7 +84,7 @@ namespace KT_Interface.ViewModels
 
            ClearCommand = new DelegateCommand(() =>
            {
-               Total = OK = NG = Skip =0;
+               Total = OK = NG = Skip = Timeout =0;
            });
         }
 
@@ -88,6 +101,9 @@ namespace KT_Interface.ViewModels
                     break;
                 case EJudgement.SKIP:
                     Skip++;
+                    break;
+                case EJudgement.TIMEOUT:
+                    Timeout++;
                     break;
             }
         }
