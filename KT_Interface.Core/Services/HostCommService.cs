@@ -171,6 +171,7 @@ namespace KT_Interface.Core.Services
                     }
 
                     var grabInfo = await _grabService.Grab();
+                    _lightControlService.LightOff();
                     if (grabInfo == null)
                     {
                         Send(EMachineCommand.Nak, EMachineMassage.Camera);
@@ -182,17 +183,15 @@ namespace KT_Interface.Core.Services
                     if (_coreConfig.UseInspector)
                     {
                         var result = _inspectionCommService.Inspect(grabInfo.Value, messages[1]);
-                        Send(EMachineCommand.Result, result);
+                        SendResult(EMachineCommand.Result, result);
+                        break;
                     }
+
+                    Send(EMachineCommand.Nak, EMachineMassage.Comm);
 
                     break;
                 case EHostCommand.Stop:
-                    if (_grabService.Stop() == false)
-                    {
-                        Send(EMachineCommand.Nak, EMachineMassage.Camera);
-                        return;
-                    }
-
+                    
                     if (_lightControlService.LightOff() == false)
                     {
                         Send(EMachineCommand.Nak, EMachineMassage.Light);
@@ -207,7 +206,26 @@ namespace KT_Interface.Core.Services
             }
         }
 
-        private void Send(EMachineCommand command, object obj = null)
+        private void SendResult(EMachineCommand command, InspectResult result)
+        {
+            if (_client == null)
+                return;
+
+            string message = string.Empty;
+            switch (command)
+            {
+                case EMachineCommand.Result:
+                    message = string.Format("{0},{1}", command, result.Judgement);
+                    break;
+            }
+
+            byte[] buff = Encoding.ASCII.GetBytes(message);
+
+            var stream = _client.GetStream();
+            stream.Write(buff, 0, buff.Length);
+        }
+
+        private void Send(EMachineCommand command, EMachineMassage machineMassage = EMachineMassage.Invalid)
         {
             if (_client == null)
                 return;
@@ -217,7 +235,7 @@ namespace KT_Interface.Core.Services
             {
                 case EMachineCommand.Result:
                 case EMachineCommand.Nak:
-                    message = string.Format("{0},{1}", command, obj);
+                    message = string.Format("{0},{1}", command, machineMassage);
                     break;
                 case EMachineCommand.Ack:
                     message = string.Format("{0}", command);

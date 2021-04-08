@@ -2,6 +2,7 @@
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,6 @@ namespace KT_Interface.Core.Services
 {
     public class LightControlService 
     {
-        private const int _timeOut = 1000;
         private int[] _storage;
 
         private SerialComm _serialComm;
@@ -51,12 +51,16 @@ namespace KT_Interface.Core.Services
                 _resetEvent.Reset();
                 if (_serialComm.Write("$4100011"))
                 {
-                    if (_resetEvent.WaitOne(_timeOut))
+                    if (_resetEvent.WaitOne(_coreConfig.ReponseTimeout))
+                    {
+                        Thread.Sleep(10);
                         return true;
+                    }
                 }
-            }
 
-            return false;
+                Thread.Sleep(10);
+                return false;
+            }
         }
 
         public bool Connect()
@@ -81,90 +85,106 @@ namespace KT_Interface.Core.Services
 
         public bool LightOn()
         {
-            try
+            lock (this)
             {
-                lock (this)
+                try
                 {
                     _resetEvent.Reset();
                     string data = "$51000";
                     if (_serialComm.Write(data + GetCheckSum(data)))
                     {
-                        if (_resetEvent.WaitOne(_timeOut))
+                        if (_resetEvent.WaitOne(_coreConfig.ReponseTimeout))
+                        {
+                            Thread.Sleep(10);
                             return true;
+                        }
                     }
 
-                    return true;
+                    Thread.Sleep(10);
+                    return false;
                 }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-                return false;
+                catch (Exception e)
+                {
+                    _logger.Error(e);
+                    return false;
+                }
             }
         }
 
         public bool LightOff()
         {
-            try
+            lock (this)
             {
-                lock (this)
+                try
                 {
                     _resetEvent.Reset();
 
                     string data = "$61000";
                     if (_serialComm.Write(data + GetCheckSum(data)))
                     {
-                        if (_resetEvent.WaitOne(_timeOut))
+                        if (_resetEvent.WaitOne(_coreConfig.ReponseTimeout))
+                        {
+                            Thread.Sleep(10);
                             return true;
+                        }
                     }
 
-                    return true;
+                    Thread.Sleep(10);
+                    return false;
                 }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-                return false;
+                catch (Exception e)
+                {
+                    _logger.Error(e);
+                    return false;
+                }
             }
         }
 
         public bool SetValue(params byte[] values)
         {
-            try
+            lock (this)
             {
-                lock (this)
+                try
                 {
+
                     _resetEvent.Reset();
                     bool result = true;
 
                     for (int i = 0; i < values.Length; i++)
                     {
-                        string data = string.Format("$3{0}0{1}", i + 1, (byte)values[i]);
+                        string data = string.Format("$3{0}0{1}", i + 1, BitConverter.ToString(new byte[] { values[i] }));
                         if (_serialComm.Write(data + GetCheckSum(data)))
                         {
-                            if (_resetEvent.WaitOne(_timeOut) == false)
+                            if (_resetEvent.WaitOne(_coreConfig.ReponseTimeout) == false)
                             {
                                 result = false;
                                 break;
                             }
+
+                            Thread.Sleep(10);
+                            continue;
                         }
+
+                        Thread.Sleep(10);
+                        result = false;
                     }
 
                     return result;
+
                 }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-                return false;
+                catch (Exception e)
+                {
+                    _logger.Error(e);
+                    return false;
+                }
             }
         }
 
         public int[] GetValue(int channels)
         {
-            try
+            lock (this)
             {
-                lock (this)
+                try
                 {
                     _resetEvent.Reset();
                     bool result = true;
@@ -174,7 +194,7 @@ namespace KT_Interface.Core.Services
                         string data = string.Format("$4{0}000", i + 1);
                         if (_serialComm.Write(data + GetCheckSum(data)))
                         {
-                            if (_resetEvent.WaitOne(_timeOut) == false)
+                            if (_resetEvent.WaitOne(_coreConfig.ReponseTimeout) == false)
                             {
                                 result = false;
                                 break;
@@ -183,19 +203,20 @@ namespace KT_Interface.Core.Services
                     }
 
                     return result ? _storage : null;
-                };
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-                return null;
+
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e);
+                    return null;
+                }
             }
         }
 
         private string GetCheckSum(string data)
         {
             var checksum = data.Aggregate(0, (p, v) => p ^ v);
-            return Convert.ToString(checksum >> 4) + Convert.ToString(checksum & 0b1111);
+            return Convert.ToString(checksum >> 4) + Convert.ToString(checksum & 0xF);
         }
     }
 }

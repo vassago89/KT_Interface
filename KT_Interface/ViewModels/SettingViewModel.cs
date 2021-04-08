@@ -129,6 +129,34 @@ namespace KT_Interface.ViewModels
             }
         }
 
+        private int _responseTimeout;
+        public int ResponseTimeout
+        {
+            get
+            {
+                return _responseTimeout;
+            }
+            set
+            {
+                SetProperty(ref _responseTimeout, value);
+                CoreConfig.ReponseTimeout = _responseTimeout;
+            }
+        }
+
+        private int _resultTimeout;
+        public int ResultTimeout
+        {
+            get
+            {
+                return _resultTimeout;
+            }
+            set
+            {
+                SetProperty(ref _resultTimeout, value);
+                CoreConfig.ResultTimeout = _resultTimeout;
+            }
+        }
+
         private int _lightNum;
         public int LightNum
         {
@@ -177,20 +205,47 @@ namespace KT_Interface.ViewModels
 
         public IEnumerable<ECameraAutoValue> AutoValues { get; set; }
 
-        public DelegateCommand RefreshCommand { get; set; }
-        public DelegateCommand ConnectCommand { get; set; }
-        public DelegateCommand DisconnectCommand { get; set; }
+        public DelegateCommand CameraRefreshCommand { get; set; }
+        public DelegateCommand CameraConnectCommand { get; set; }
+        public DelegateCommand CameraDisconnectCommand { get; set; }
+
+        public DelegateCommand LightRefreshCommand { get; set; }
+        public DelegateCommand LightConnectCommand { get; set; }
+        public DelegateCommand LightDisconnectCommand { get; set; }
+
         public DelegateCommand<ECameraAutoType?> SetAutoCommand { get; set; }
+        public DelegateCommand SetTriggerModeCommand { get; set; }
 
         public DelegateCommand LightOnCommand { get; set; }
         public DelegateCommand LightOffCommand { get; set; }
 
         public DelegateCommand SaveCommand { get; set; }
 
+        private void RefreshPorts()
+        {
+            var ports = SerialPort.GetPortNames().ToArray();
+            if (_coreConfig.LightSerialInfo != null)
+            {
+                for (int i = 0; i < ports.Length; i++)
+                {
+                    if (ports[i] == _coreConfig.LightSerialInfo.PortName)
+                    {
+                        ports[i] = _coreConfig.LightSerialInfo.PortName;
+                        break;
+                    }
+                }
+            }
+
+            Ports = ports;
+        }
+
         public SettingViewModel(GrabService grabService, LightControlService lightControlService, StateStore stateStore, CoreConfig coreConfig)
         {
             _stateStore = stateStore;
             _coreConfig = coreConfig;
+
+            _responseTimeout = CoreConfig.ReponseTimeout;
+            _resultTimeout = CoreConfig.ResultTimeout;
 
             ResultPath = _coreConfig.ResultPath;
 
@@ -223,20 +278,8 @@ namespace KT_Interface.ViewModels
 
             CameraInfos = grabService.GetDeviceInfos();
 
-            var ports = SerialPort.GetPortNames().ToArray();
-            if (coreConfig.LightSerialInfo != null)
-            {
-                for (int i = 0; i < ports.Length; i++)
-                {
-                    if (ports[i] == coreConfig.LightSerialInfo.PortName)
-                    {
-                        ports[i] = coreConfig.LightSerialInfo.PortName;
-                        break;
-                    }
-                }
-            }
-
-            Ports = ports;
+            RefreshPorts();
+            
             BaudRates = new int[] { 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 };
             Parities = Enum.GetValues(typeof(Parity)).Cast<Parity>();
             DataBits = new int[] { 5, 6, 7, 8 };
@@ -259,12 +302,12 @@ namespace KT_Interface.ViewModels
                 }
             });
 
-            RefreshCommand = new DelegateCommand(() =>
+            CameraRefreshCommand = new DelegateCommand(() =>
             {
                 CameraInfos = grabService.GetDeviceInfos();
             });
 
-            ConnectCommand = new DelegateCommand(() =>
+            CameraConnectCommand = new DelegateCommand(() =>
             {
                 if (CoreConfig.CameraInfo != null)
                 {
@@ -273,10 +316,28 @@ namespace KT_Interface.ViewModels
                 }
             });
 
-            DisconnectCommand = new DelegateCommand(() =>
+            CameraDisconnectCommand = new DelegateCommand(() =>
             {
                 grabService.Disconnect(); 
                 ParameterInfo = null;
+            });
+
+            LightRefreshCommand = new DelegateCommand(() =>
+            {
+                RefreshPorts();
+            });
+
+            LightConnectCommand = new DelegateCommand(() =>
+            {
+                if (CoreConfig.LightSerialInfo != null)
+                {
+                    lightControlService.Connect();
+                }
+            });
+
+            LightDisconnectCommand = new DelegateCommand(() =>
+            {
+                lightControlService.Disconnect();
             });
 
             SetAutoCommand = new DelegateCommand<ECameraAutoType?>(type =>
@@ -286,6 +347,11 @@ namespace KT_Interface.ViewModels
 
                 grabService.SetAuto(type.Value, ParameterInfo.AutoValues[type.Value]);
                 ParameterInfo = grabService.GetParameterInfo();
+            });
+
+            SetTriggerModeCommand = new DelegateCommand(() =>
+            {
+                grabService.SetTriggerMode(ParameterInfo.OnTriggerMode);
             });
 
             SaveCommand = new DelegateCommand(() =>

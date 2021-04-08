@@ -20,29 +20,6 @@ using System.Windows.Data;
 
 namespace KT_Interface
 {
-    [ValueConversion(typeof(bool), typeof(bool))]
-    public class InverseBooleanConverter : IValueConverter
-    {
-        #region IValueConverter Members
-
-        public object Convert(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
-        {
-            if (targetType != typeof(bool))
-                throw new InvalidOperationException("The target must be a boolean");
-
-            return !(bool)value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
-
-        #endregion
-    }
-
     /// <summary>
     /// App.xaml에 대한 상호 작용 논리
     /// </summary>
@@ -83,6 +60,8 @@ namespace KT_Interface
                 Container.Resolve<LightControlService>().Connect();
 
             Container.Resolve<HostCommService>().Connect();
+
+            Container.Resolve<StoringService>().Run();
         }
 
         protected override Window CreateShell()

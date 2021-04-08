@@ -1,4 +1,5 @@
-﻿using KT_Interface.Core.Services;
+﻿using KT_Interface.Core;
+using KT_Interface.Core.Services;
 using KT_Interface.Infos;
 using Prism.Mvvm;
 using System;
@@ -28,6 +29,7 @@ namespace KT_Interface.ViewModels
             HostCommService hostCommService,
             InspectService inspectService,
             StateStore stateStore,
+            CoreConfig coreConfig,
             CancellationToken token)
         {
             _stateStore = stateStore;
@@ -41,7 +43,7 @@ namespace KT_Interface.ViewModels
                     _stateStore.CameraInfo = GetConnectionInfo(grabService.IsConnected());
                     _stateStore.LightInfo = GetConnectionInfo(lightControlService.IsConnected());
 
-                    await Task.Delay(1000).ConfigureAwait(false);
+                    await Task.Delay(coreConfig.CommCheckDelay).ConfigureAwait(false);
                 }
             });
         }

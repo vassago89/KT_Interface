@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KT_Interface.Views"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:cvts="clr-namespace:KT_Interface.Converters"
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="Interface" Height="700" Width="1000"
@@ -12,7 +13,7 @@
         WindowStartupLocation="CenterScreen"
         Background="Black">
     <Window.Resources>
-        <local:ResultColorConvereter x:Key="ResultColorConvereter"/>
+        <cvts:ResultColorConvereter x:Key="ResultColorConvereter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +35,7 @@
                         <local:ImageCountView/>
                     </Border>
                 </StackPanel>
-                <TextBlock Text="{Binding InspectResult.Judgement}" FontSize="48" FontWeight="Bold" Foreground="{Binding InspectResult, Converter={StaticResource ResultColorConvereter}}"/>
+                <TextBlock Text="{Binding Result.Judgement}" FontSize="48" FontWeight="Bold" Foreground="{Binding Result, Converter={StaticResource ResultColorConvereter}}"/>
             </DockPanel>
         </Grid>
         <ToggleButton Grid.Column="2" IsChecked="{Binding StateStore.OnManual}">
@@ -71,7 +72,7 @@
             </Border>
         </StackPanel>
         <Border Grid.Row="1">
-            <Border BorderBrush="{Binding InspectResult, Converter={StaticResource ResultColorConvereter}}" BorderThickness="0">
+            <Border BorderBrush="{Binding Result, Converter={StaticResource ResultColorConvereter}}" BorderThickness="10">
                 <Grid>
                     <local:ImageView/>
                     <local:SettingView Margin="4" Visibility="{Binding StateStore.IsSettingMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>

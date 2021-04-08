@@ -74,6 +74,7 @@ namespace KT_Interface.Core.Services
             catch (Exception e)
             {
                 _grabbing = false;
+                _logger.Error(e);
                 return null;
             }
         }

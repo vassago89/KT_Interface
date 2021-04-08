@@ -25,12 +25,17 @@ namespace KT_Interface.Core
 
         public CameraInfo CameraInfo { get; set; }
         public SerialInfo LightSerialInfo { get; set; }
+        public int ReponseTimeout { get; set; }
+        public int ResultTimeout { get; set; }
+
+        public int CommCheckDelay { get; set; }
 
         public string ResultPath { get; set; }
         public string TempPath { get; set; }
         public ImageFormat ImageFormat { get; set; }
 
         public int StoringDays { get; set; }
+        public int StoringCheckDelay { get; set; }
 
         public int LightNum { get; set; }
         public byte[] LightValues { get; set; }
@@ -45,6 +50,13 @@ namespace KT_Interface.Core
             ImageFormat = ImageFormat.Bmp;
             StoringDays = 90;
             LightNum = 1;
+
+            ReponseTimeout = 200;
+            ResultTimeout = 2000;
+
+            CommCheckDelay = 1000;
+
+            StoringCheckDelay = 60;
         }
     }
 }

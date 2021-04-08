@@ -39,14 +39,11 @@ namespace KT_Interface.ViewModels
             {
                 if (lightControlService.SetValue(coreConfig.LightValues) && lightControlService.LightOn())
                 {
-                    if (lightControlService.SetValue(coreConfig.LightValues) && lightControlService.LightOn())
-                    {
-                        var grabInfo = await grabService.Grab();
-                        lightControlService.LightOff();
+                    var grabInfo = await grabService.Grab();
+                    lightControlService.LightOff();
 
-                        if (grabInfo != null && coreConfig.UseInspector && stateStore.IsManualEnabled)
-                            inspectService.Inspect(grabInfo.Value);
-                    }
+                    if (grabInfo != null && coreConfig.UseInspector && stateStore.IsManualEnabled)
+                        inspectService.Inspect(grabInfo.Value);
                 }
             });
 

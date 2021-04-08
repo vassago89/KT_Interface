@@ -32,14 +32,19 @@
                             <TextBlock>Communication</TextBlock>
                         </DockPanel>
                         <UniformGrid Columns="2">
-                            <TextBlock>Host Port</TextBlock>
-                            <TextBox Text="{Binding CoreConfig.HostPort}"/>
-                            <TextBlock>Inspector Port</TextBlock>
-                            <TextBox Text="{Binding CoreConfig.InspectorPort}"/>
                             <TextBlock>Use Host</TextBlock>
                             <CheckBox IsChecked="{Binding CoreConfig.UseHost}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock>Use Inspector</TextBlock>
                             <CheckBox IsChecked="{Binding CoreConfig.UseInspector}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock>Host Port</TextBlock>
+                            <TextBox Text="{Binding CoreConfig.HostPort}"/>
+                            <TextBlock>Inspector Port</TextBlock>
+                            <TextBox Text="{Binding CoreConfig.InspectorPort}"/>
+                            <TextBlock Text="Result Timeout (ms)"/>
+                            <DockPanel>
+                                <TextBox Text="{Binding ResultTimeout}" DockPanel.Dock="Right" Width="100"/>
+                                <Slider Value="{Binding ResultTimeout}" Minimum="0" Maximum="10000" VerticalAlignment="Center"/>
+                            </DockPanel>
                         </UniformGrid>
                     </StackPanel>
                 </ScrollViewer>
@@ -55,25 +60,34 @@
                             </Image>
                             <TextBlock>Camera</TextBlock>
                         </DockPanel>
-                        <UniformGrid Columns="2">
+                        <UniformGrid Columns="2" Margin="4">
                             <TextBlock>Selected Camera</TextBlock>
+                            <ComboBox ItemsSource="{Binding CameraInfos}" SelectedItem="{Binding CoreConfig.CameraInfo}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ModelName}" Style="{StaticResource App_TextBlock}" Foreground="Black"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </UniformGrid>
+                        <UniformGrid Columns="3" Margin="60 4 4 4">
+                            <Button Command="{Binding CameraConnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected, Converter={StaticResource InverseBooleanConverter}}">
+                                <TextBlock Text="Connect"/>
+                            </Button>
+                            <Button Command="{Binding CameraDisconnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected}">
+                                <TextBlock Text="Disconnect"/>
+                            </Button>
+                            <Button Command="{Binding CameraRefreshCommand}">
+                                <TextBlock Text="Refresh"/>
+                            </Button>
+                        </UniformGrid>
+                        <UniformGrid Columns="2" Margin="4">
+                            <TextBlock>Trigger Mode</TextBlock>
                             <DockPanel>
-                                <Button Command="{Binding RefreshCommand}" DockPanel.Dock="Right">
-                                    <TextBlock Text="Refresh"/>
+                                <Button DockPanel.Dock="Right" Command="{Binding SetTriggerModeCommand}">
+                                    <TextBlock Text="Set"/>
                                 </Button>
-                                <Button Command="{Binding DisconnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected}" DockPanel.Dock="Right">
-                                    <TextBlock Text="Disconnect"/>
-                                </Button>
-                                <Button Command="{Binding ConnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected, Converter={StaticResource InverseBooleanConverter}}" DockPanel.Dock="Right">
-                                    <TextBlock Text="Connect"/>
-                                </Button>
-                                <ComboBox ItemsSource="{Binding CameraInfos}" SelectedItem="{Binding CoreConfig.CameraInfo}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ModelName}" Style="{StaticResource App_TextBlock}" Foreground="Black"/>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
+                                <CheckBox IsChecked="{Binding ParameterInfo.OnTriggerMode}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DockPanel>
                             <TextBlock>Exposure Auto</TextBlock>
                             <DockPanel>
@@ -96,21 +110,21 @@
                                 </Button>
                                 <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[WhiteBalance]}"/>
                             </DockPanel>
-                            <TextBlock>Offset X</TextBlock>
+                            <TextBlock>Offset X (pixel)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetX}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
-                            <TextBlock>Offset Y</TextBlock>
+                            <TextBlock>Offset Y (pixel)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetY}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
-                            <TextBlock>Width</TextBlock>
+                            <TextBlock>Width (pixel)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Width}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
-                            <TextBlock>Height</TextBlock>
+                            <TextBlock>Height (pixel)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Height}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
-                            <TextBlock>Exposure</TextBlock>
+                            <TextBlock>Exposure Time (us)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Exposure}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
-                            <TextBlock>Gain</TextBlock>
+                            <TextBlock>Gain (x)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Gain}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
-                            <TextBlock>Frame Rate</TextBlock>
+                            <TextBlock>Frame Rate (fps)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.FrameRate}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
-                            <TextBlock>Trigger Delay</TextBlock>
+                            <TextBlock>Trigger Delay (um)</TextBlock>
                             <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.TriggerDelay}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
                         </UniformGrid>
                     </StackPanel>
@@ -127,13 +141,26 @@
                             </Image>
                             <TextBlock>Light</TextBlock>
                         </DockPanel>
-                        <UniformGrid Margin="4" Columns="2">
+                        <UniformGrid Margin="4" Columns="2" IsEnabled="{Binding StateStore.LightInfo.IsConnected}">
                             <Button Command="{Binding LightOnCommand}">
                                 <TextBlock Text="On"/>
                             </Button>
                             <Button Command="{Binding LightOffCommand}">
                                 <TextBlock Text="Off"/>
                             </Button>
+                        </UniformGrid>
+                        <UniformGrid Columns="3" Margin="4">
+                            <Button Command="{Binding LightConnectCommand}" IsEnabled="{Binding StateStore.LightInfo.IsConnected, Converter={StaticResource InverseBooleanConverter}}">
+                                <TextBlock Text="Connect"/>
+                            </Button>
+                            <Button Command="{Binding LightDisconnectCommand}" IsEnabled="{Binding StateStore.LightInfo.IsConnected}">
+                                <TextBlock Text="Disconnect"/>
+                            </Button>
+                            <Button Command="{Binding LightRefreshCommand}">
+                                <TextBlock Text="Refresh"/>
+                            </Button>
+                        </UniformGrid>
+                        <UniformGrid Margin="4" Columns="2">
                             <TextBlock Text="Port"/>
                             <ComboBox ItemsSource="{Binding Ports}" SelectedItem="{Binding CoreConfig.LightSerialInfo.PortName}"/>
                             <TextBlock Text="Baud Rate"/>
@@ -148,6 +175,11 @@
                             <DockPanel>
                                 <TextBox Text="{Binding LightNum}" DockPanel.Dock="Right" Width="100"/>
                                 <Slider Value="{Binding LightNum}" Minimum="1" Maximum="4" VerticalAlignment="Center"/>
+                            </DockPanel>
+                            <TextBlock Text="Response Timout (ms)"/>
+                            <DockPanel>
+                                <TextBox Text="{Binding ResponseTimeout}" DockPanel.Dock="Right" Width="100"/>
+                                <Slider Value="{Binding ResponseTimeout}" Minimum="0" Maximum="1000" VerticalAlignment="Center"/>
                             </DockPanel>
                         </UniformGrid>
                         <TextBlock Text="Light Values"/>
@@ -176,8 +208,6 @@
                             <TextBlock>Result Setting</TextBlock>
                         </DockPanel>
                         <UniformGrid Columns="2">
-                            <TextBlock>Format</TextBlock>
-                            <ComboBox ItemsSource="{Binding ImageFormats}" SelectedItem="{Binding CoreConfig.ImageFormat}"/>
                             <TextBlock>Path</TextBlock>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -196,10 +226,12 @@
                                     </DockPanel>
                                 </Button>
                             </Grid>
-                            <TextBlock>Storing Days</TextBlock>
-                            <TextBox Text="{Binding CoreConfig.StoringDays}"/>
                             <TextBlock Text="Type"/>
                             <ComboBox ItemsSource="{Binding SaveModes}" SelectedItem="{Binding CoreConfig.SaveMode}"/>
+                            <TextBlock>Format</TextBlock>
+                            <ComboBox ItemsSource="{Binding ImageFormats}" SelectedItem="{Binding CoreConfig.ImageFormat}"/>
+                            <TextBlock>Storing Days</TextBlock>
+                            <TextBox Text="{Binding CoreConfig.StoringDays}"/>
                         </UniformGrid>
                     </StackPanel>
                 </ScrollViewer>

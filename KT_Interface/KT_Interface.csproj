@@ -121,7 +121,11 @@
       <DependentUpon>ParameterControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ViewModels\ParameterControlViewModel.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\ResultColorConvereter.cs" />
+    <Compile Include="Extensions\StoryboardExtensions.cs" />
     <Compile Include="Infos\ConnectionInfo.cs" />
+    <Compile Include="Services\ZoomService.cs" />
     <Compile Include="StateStore.cs" />
     <Compile Include="ViewModels\CommunicationViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
@@ -255,9 +259,7 @@
       <Name>KT_Interface.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Windows Logo.png" />
   </ItemGroup>

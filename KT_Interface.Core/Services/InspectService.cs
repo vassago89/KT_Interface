@@ -23,7 +23,7 @@ namespace KT_Interface.Core.Services
 
     public enum EJudgement
     {
-        OK, NG, SKIP
+        OK, NG, SKIP, TIMEOUT
     }
 
     public class InspectResult
@@ -58,7 +58,7 @@ namespace KT_Interface.Core.Services
             _logger = LogManager.GetCurrentClassLogger();
         }
         
-        public bool Inspect(GrabInfo grabInfo, string waferID = null)
+        public InspectResult Inspect(GrabInfo grabInfo, string waferID = null)
         {
             if (_mat == null || _mat.Cols != grabInfo.Width || _mat.Rows != grabInfo.Height || _mat.Channels() != grabInfo.Channels)
             {
@@ -86,30 +86,25 @@ namespace KT_Interface.Core.Services
             imagePath = Path.GetFullPath(imagePath);
             _mat.ImWrite(imagePath);
 
+            var inspectResult = new InspectResult(EJudgement.SKIP);
+
             var response = Send(imagePath);
-            if (response == null)
-            {
-                if (Inspected != null)
-                    Inspected(new InspectResult(EJudgement.SKIP));
-
-                return false;
-            }
-
+            if (string.IsNullOrEmpty(response))
+                inspectResult = new InspectResult(EJudgement.TIMEOUT);
+            
             if (Inspected != null)
                 Inspected(new InspectResult(EJudgement.OK));
 
-            return true;
+            return inspectResult;
         }
 
         public bool IsConnected()
         {
             try
             {
-                lock (this)
-                {
-                    using (var client = new TcpClient("localhost", _coreConfig.InspectorPort))
-                        return true;
-                }
+                var ipgp = IPGlobalProperties.GetIPGlobalProperties();
+                var endpoints = ipgp.GetActiveTcpListeners();
+                return endpoints.Any(ep => ep.Port == _coreConfig.InspectorPort);
             }
             catch (Exception e)
             {
@@ -131,6 +126,8 @@ namespace KT_Interface.Core.Services
                     {
                         byte[] buff = Encoding.ASCII.GetBytes(string.Format("{0}", imagePath));
                         stream.Write(buff, 0, buff.Length);
+
+                        stream.ReadTimeout = _coreConfig.ResultTimeout;
 
                         byte[] outbuf = new byte[1024];
                         int nbytes = stream.Read(outbuf, 0, outbuf.Length);

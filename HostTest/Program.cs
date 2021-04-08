@@ -35,6 +35,10 @@ namespace HostTest
                 {
                     message = "Start2,1234\n";
                 }
+                else if (key.Key == ConsoleKey.D3)
+                {
+                    message = "Stop\n";
+                }
 
                 byte[] buff = Encoding.ASCII.GetBytes(message);
 
@@ -45,6 +49,13 @@ namespace HostTest
                 int nbytes = stream.Read(outbuf, 0, outbuf.Length);
                 string output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
                 Console.WriteLine(output);
+
+                if (output == "Ack")
+                {
+                    nbytes = stream.Read(outbuf, 0, outbuf.Length);
+                    output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
+                    Console.WriteLine(output);
+                }
 
                 stream.Close();
                 client.Close();

@@ -9,8 +9,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Image Source="{Binding ImageSource}"
-               Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"
-               Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Canvas x:Name="Canvas" Loaded="Canvas_Loaded" PreviewMouseWheel="Canvas_PreviewMouseWheel" PreviewMouseDown="Canvas_PreviewMouseDown" PreviewMouseUp="Canvas_PreviewMouseUp" PreviewMouseMove="Canvas_PreviewMouseMove">
+            <Canvas.Resources>
+                <Style TargetType="Image"/>
+            </Canvas.Resources>
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="{Binding ZoomService.Scale}" ScaleY="{Binding ZoomService.Scale}"/>
+                    <TranslateTransform X="{Binding ZoomService.TranslateX}" Y="{Binding ZoomService.TranslateY}"/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <Image Source="{Binding ImageSource}"/>
+        </Canvas>
+        <Border Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="{Binding ZoomInCommand}">
+                    <TextBlock Text="Zoom In"/>
+                </Button>
+                <Button Command="{Binding ZoomOutCommand}">
+                    <TextBlock Text="Zoom Out"/>
+                </Button>
+                <Button Command="{Binding ZoomFitCommand}">
+                    <TextBlock Text="Zoom Fit"/>
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
