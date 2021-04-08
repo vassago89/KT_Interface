@@ -36,8 +36,26 @@ namespace KT_Interface.Core.Services
         public IEnumerable<CameraInfo> GetDeviceInfos()
         {
             var Infos = new List<CameraInfo>();
-            Infos.AddRange(_baslerFactory.GetDevices());
-            Infos.AddRange(_hikFactory.GetDevices());
+
+            // Basler SDK 필요
+            try
+            {
+                Infos.AddRange(_baslerFactory.GetDevices());
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
+
+            // MVS SDK 필요
+            try
+            {
+                Infos.AddRange(_hikFactory.GetDevices());
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
 
             _logger.Info("GetDeviceInfos");
 
