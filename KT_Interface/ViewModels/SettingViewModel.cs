@@ -66,6 +66,7 @@ namespace KT_Interface.ViewModels
 
         public IEnumerable<ImageFormat> ImageFormats { get; set; }
         public DelegateCommand ResultPathCommand { get; set; }
+        public DelegateCommand LogPathCommand { get; set; }
 
         private string _resultPath;
         public string ResultPath
@@ -77,6 +78,19 @@ namespace KT_Interface.ViewModels
             set
             {
                 SetProperty(ref _resultPath, value);
+            }
+        }
+
+        private string _logPath;
+        public string LogPath
+        {
+            get
+            {
+                return _logPath;
+            }
+            set
+            {
+                SetProperty(ref _logPath, value);
             }
         }
 
@@ -248,6 +262,7 @@ namespace KT_Interface.ViewModels
             _resultTimeout = CoreConfig.ResultTimeout;
 
             ResultPath = _coreConfig.ResultPath;
+            LogPath = _coreConfig.LogPath;
 
             LightOnCommand = new DelegateCommand(() =>
             {
@@ -302,6 +317,18 @@ namespace KT_Interface.ViewModels
                 {
                     _coreConfig.ResultPath = dialog.FileName;
                     ResultPath = _coreConfig.ResultPath;
+                }
+            });
+
+            LogPathCommand = new DelegateCommand(() =>
+            {
+                var dialog = new CommonOpenFileDialog();
+                dialog.InitialDirectory = _coreConfig.LogPath;
+                dialog.IsFolderPicker = true;
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    _coreConfig.LogPath = dialog.FileName;
+                    LogPath = _coreConfig.LogPath;
                 }
             });
 

@@ -57,8 +57,6 @@ namespace KT_Interface.Core.Services
                 _logger.Error(e);
             }
 
-            _logger.Info("GetDeviceInfos");
-
             return Infos;
         }
 

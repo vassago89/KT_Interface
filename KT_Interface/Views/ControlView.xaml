@@ -58,8 +58,8 @@
                     </DockPanel>
                 </ToggleButton>
             </StackPanel>
-            <Button>
-                <Button.Content>
+            <ToggleButton IsChecked="{Binding StateStore.IsLogMode}">
+                <ToggleButton.Content>
                     <DockPanel>
                         <Image>
                             <Image.Source>
@@ -68,8 +68,8 @@
                         </Image>
                         <TextBlock>Log</TextBlock>
                     </DockPanel>
-                </Button.Content>
-            </Button>
+                </ToggleButton.Content>
+            </ToggleButton>
             <Button Command="{Binding ExitCommand}">
                 <Button.Content>
                     <DockPanel>

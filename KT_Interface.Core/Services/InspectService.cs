@@ -75,14 +75,14 @@ namespace KT_Interface.Core.Services
 
             Marshal.Copy(grabInfo.Data, 0, _mat.Data, grabInfo.Data.Length);
 
-            if (Directory.Exists(_coreConfig.TempPath) == false)
-                Directory.CreateDirectory(_coreConfig.TempPath);
+            if (Directory.Exists(_coreConfig.GetTempPath()) == false)
+                Directory.CreateDirectory(_coreConfig.GetTempPath());
             
             var imagePath = string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmss"), _coreConfig.ImageFormat);
             if (waferID != null)
                 imagePath = string.Format("{0}_{1}", waferID, imagePath);
 
-            imagePath = Path.Combine(_coreConfig.TempPath, imagePath);
+            imagePath = Path.Combine(_coreConfig.GetTempPath(), imagePath);
             imagePath = Path.GetFullPath(imagePath);
             _mat.ImWrite(imagePath);
 

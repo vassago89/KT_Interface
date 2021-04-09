@@ -75,7 +75,8 @@
         <Border Grid.Row="1" Margin="-4 4 4 4">
             <Grid>
                 <local:ImageView/>
-                <local:SettingView Margin="4" Visibility="{Binding StateStore.IsSettingMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:SettingView Visibility="{Binding StateStore.IsSettingMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:LogView Visibility="{Binding StateStore.IsLogMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </Border>
         <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="-6 -5 -6 -6" BorderThickness="1">

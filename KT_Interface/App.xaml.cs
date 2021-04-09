@@ -17,6 +17,7 @@ using Unity;
 using NLog;
 using System.Threading;
 using System.Windows.Data;
+using NLog.Targets;
 
 namespace KT_Interface
 {
@@ -26,47 +27,93 @@ namespace KT_Interface
     public partial class App : PrismApplication
 	{
         private CancellationTokenSource _cts;
+        private ILogger _logger;
 
         protected override void OnExit(ExitEventArgs e)
 		{
             File.WriteAllText("CoreConfig.json", JsonConvert.SerializeObject(Container.Resolve<CoreConfig>()));
 
+            _logger.Info("Exit");
             base.OnExit(e);
 		}
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            _cts = new CancellationTokenSource();
+            try
+            {
+                containerRegistry
+                    .RegisterInstance(
+                    File.Exists("CoreConfig.json")
+                    ? JsonConvert.DeserializeObject<CoreConfig>(File.ReadAllText("CoreConfig.json"))
+                    : new CoreConfig())
+                    .RegisterInstance(_cts)
+                    .Register<CancellationToken>(i => _cts.Token)
+                    .RegisterSingleton<AppState>()
+                    .RegisterSingleton<StateStore>()
+                    .RegisterSingleton<GrabService>()
+                    .RegisterSingleton<HostCommService>()
+                    .RegisterSingleton<InspectService>()
+                    .RegisterSingleton<LightControlService>()
+                    .RegisterSingleton<StoringService>()
+                    .RegisterSingleton<UsageService>()
+                    .RegisterSingleton<LogService>()
+                    .RegisterSingleton<LogViewModel>();
 
-            containerRegistry
-                .RegisterInstance(
-                File.Exists("CoreConfig.json")
-                ? JsonConvert.DeserializeObject<CoreConfig>(File.ReadAllText("CoreConfig.json"))
-                : new CoreConfig())
-                .RegisterInstance(_cts)
-                .Register<CancellationToken>(i => _cts.Token)
-                .RegisterSingleton<AppState>()
-                .RegisterSingleton<StateStore>()
-                .RegisterSingleton<GrabService>()
-                .RegisterSingleton<HostCommService>()
-                .RegisterSingleton<InspectService>()
-                .RegisterSingleton<LightControlService>();
+                var config = Container.Resolve<CoreConfig>();
 
-            var config = Container.Resolve<CoreConfig>();
-            if (config.CameraInfo != null)
-                Container.Resolve<GrabService>().Connect(config.CameraInfo);
+                var logService = Container.Resolve<LogService>();
+                var logViewModel = Container.Resolve<LogViewModel>();
+                logService.Recived += logViewModel.Recived;
+
+                var logConfig = new NLog.Config.LoggingConfiguration();
+                var fileTarget = new FileTarget()
+                {
+                    Encoding = System.Text.Encoding.UTF8,
+                    FileName = Path.Combine(config.LogPath, "KT_Interface.log"),
+                    ArchiveFileName = Path.Combine(config.LogPath, "KT_Interface.{#}.log"),
+                    ArchiveEvery = FileArchivePeriod.Day,
+                    ArchiveNumbering = ArchiveNumberingMode.Date,
+                    ArchiveDateFormat = "yyyy-MM-dd",
+                    MaxArchiveDays = config.LogStoringDays,
+                };
                 
-            if (config.LightSerialInfo != null)
-                Container.Resolve<LightControlService>().Connect();
+                logConfig.AddRule(LogLevel.Debug, LogLevel.Fatal, logService);
+                logConfig.AddRule(LogLevel.Debug, LogLevel.Fatal, fileTarget);
+                
+                LogManager.Configuration = logConfig;
 
-            Container.Resolve<HostCommService>().Connect();
+                _logger = LogManager.GetCurrentClassLogger();
+                _logger.Info("Start");
 
-            Container.Resolve<StoringService>().Run();
+                _cts = new CancellationTokenSource();
+                
+                if (config.CameraInfo != null)
+                    Container.Resolve<GrabService>().Connect(config.CameraInfo);
+
+                if (config.LightSerialInfo != null)
+                    Container.Resolve<LightControlService>().Connect();
+
+                Container.Resolve<HostCommService>().Connect();
+
+                Container.Resolve<StoringService>().Run();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
         }
 
         protected override Window CreateShell()
         {
-            return new ShellView();
+            try
+            {
+                return new ShellView();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+                return null;
+            }
         }
     }
 }

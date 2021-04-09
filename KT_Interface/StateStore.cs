@@ -37,6 +37,8 @@ namespace KT_Interface
             {
                 SetProperty(ref _onManual, value);
                 CheckState();
+                IsSettingMode = false;
+                IsLogMode = false;
                 Mode = _onManual ? "Manual" : "Auto";
             }
         }
@@ -160,6 +162,23 @@ namespace KT_Interface
             set
             {
                 SetProperty(ref _isSettingMode, value);
+                if (_isSettingMode)
+                    IsLogMode = false;
+            }
+        }
+
+        private bool _isLogMode;
+        public bool IsLogMode
+        {
+            get
+            {
+                return _isLogMode;
+            }
+            set
+            {
+                SetProperty(ref _isLogMode, value);
+                if (_isLogMode)
+                    IsSettingMode = false;
             }
         }
 

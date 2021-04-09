@@ -19,7 +19,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <UniformGrid>
+        <UniformGrid Margin="4">
             <Border>
                 <ScrollViewer>
                     <StackPanel>
@@ -289,10 +289,10 @@
                                     <BitmapImage UriSource="/Images/export.png"/>
                                 </Image.Source>
                             </Image>
-                            <TextBlock>Result</TextBlock>
+                            <TextBlock>Export</TextBlock>
                         </DockPanel>
                         <UniformGrid Columns="2">
-                            <TextBlock>Path</TextBlock>
+                            <TextBlock>Result Path</TextBlock>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -314,14 +314,34 @@
                             <ComboBox ItemsSource="{Binding SaveModes}" SelectedItem="{Binding CoreConfig.SaveMode}"/>
                             <TextBlock>Format</TextBlock>
                             <ComboBox ItemsSource="{Binding ImageFormats}" SelectedItem="{Binding CoreConfig.ImageFormat}"/>
-                            <TextBlock>Storing Days</TextBlock>
-                            <TextBox Text="{Binding CoreConfig.StoringDays}"/>
+                            <TextBlock>Result Storing Days</TextBlock>
+                            <TextBox Text="{Binding CoreConfig.ResultStoringDays}"/>
+                            <TextBlock>Log Path</TextBlock>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding LogPath}"/>
+                                <Grid Background="Transparent"/>
+                                <Button Grid.Column="1" Command="{Binding LogPathCommand}">
+                                    <DockPanel>
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Images/folder_out.png"/>
+                                            </Image.Source>
+                                        </Image>
+                                    </DockPanel>
+                                </Button>
+                            </Grid>
+                            <TextBlock>Log Storing Days</TextBlock>
+                            <TextBox Text="{Binding CoreConfig.LogStoringDays}"/>
                         </UniformGrid>
                     </StackPanel>
                 </ScrollViewer>
             </Border>
         </UniformGrid>
-        <Button Grid.Row="1" Command="{Binding SaveCommand}">
+        <Button Grid.Row="1" Command="{Binding SaveCommand}" Margin="1">
             <DockPanel>
                 <Image>
                     <Image.Source>

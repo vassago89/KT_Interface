@@ -106,6 +106,7 @@
     <Compile Include="Services\InspectService.cs" />
     <Compile Include="Services\LightControlService.cs" />
     <Compile Include="AppState.cs" />
+    <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\StoringService.cs" />
     <Compile Include="Services\UsageService.cs" />
   </ItemGroup>

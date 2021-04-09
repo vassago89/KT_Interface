@@ -68,6 +68,7 @@ namespace KT_Interface.Core.Services
             var info = _coreConfig.LightSerialInfo;
             try
             {
+                _logger.Info(string.Format("Connect - Port:{0}, BaudRate:{1}, Parity:{2}, DataBits:{3}, StopBits{4}", info.PortName, info.BaudRate, info.Parity, info.DataBits, info.StopBits));
                 _buffer = new char[info.DataBits];
                 return _serialComm.Connect(info.PortName, info.BaudRate, info.Parity, info.DataBits, info.StopBits);
             }
@@ -80,6 +81,7 @@ namespace KT_Interface.Core.Services
 
         public bool Disconnect()
         {
+            _logger.Info("Disconnect");
             return _serialComm.Disconnect();
         }
 
@@ -99,7 +101,7 @@ namespace KT_Interface.Core.Services
                             return true;
                         }
                     }
-
+                    
                     Thread.Sleep(10);
                     return false;
                 }
