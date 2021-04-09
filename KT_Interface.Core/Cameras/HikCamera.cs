@@ -81,9 +81,7 @@ namespace KT_Interface.Core.Cameras
 
         public bool Disconnect()
         {
-            if (Stop() == false)
-                return false;
-
+            Stop();
             if (MyCamera.MV_OK != _device.MV_CC_CloseDevice_NET())
                 return false;
 
