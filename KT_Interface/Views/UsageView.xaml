@@ -33,7 +33,7 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <ProgressBar Value="{Binding MemoryUsage}" Maximum="{Bi nding MemoryTotal}"/>
+                <ProgressBar Value="{Binding MemoryUsage}" Maximum="{Binding MemoryTotal}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Hard"/>
