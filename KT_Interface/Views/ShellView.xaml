@@ -19,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -71,11 +72,14 @@
                 <local:ControlView Margin="4"/>
             </Border>
         </StackPanel>
-        <Border Grid.Row="1">
+        <Border Grid.Row="1" Margin="-4 4 4 4">
             <Grid>
                 <local:ImageView/>
                 <local:SettingView Margin="4" Visibility="{Binding StateStore.IsSettingMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
+        </Border>
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="-6 -5 -6 -6" BorderThickness="1">
+            <local:UsageView/>
         </Border>
     </Grid>
 </Window>
