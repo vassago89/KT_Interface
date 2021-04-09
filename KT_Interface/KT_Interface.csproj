@@ -267,9 +267,70 @@
       <Name>KT_Interface.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\view_1_1.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Windows Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\navigate_minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\navigate_plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\media_stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\switch2_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\switch2_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\checkbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\checkbox_unchecked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\camera2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\lightbulb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\export.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\messages.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\zoom_in.png" />
+    <Resource Include="Images\zoom_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\box_out.png" />
+    <Resource Include="Images\server_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\server.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\magnifying_glass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\chart_line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\control_panel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KT_Interface.Controls"
+             xmlns:local="clr-namespace:KT_Interface.Controls.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"  Margin="-4"
@@ -11,7 +11,14 @@
     <Grid>
         <DockPanel>
             <Button DockPanel.Dock="Right" Command="{Binding SetCommand}">
-                <TextBlock Text="Set"/>
+                <DockPanel>
+                    <Image Width="16" Height="16">
+                        <Image.Source>
+                            <BitmapImage UriSource="/Images/checkbox.png"/>
+                        </Image.Source>
+                    </Image>
+                    <!--<TextBlock Text="Set"/>-->
+                </DockPanel>
             </Button>
             <Grid DockPanel.Dock="Right">
                 <TextBox Width="100" Text="{Binding Current, StringFormat={}{0:0.##}}"/>

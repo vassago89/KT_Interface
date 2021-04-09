@@ -10,15 +10,16 @@
     <Grid>
         <StackPanel>
             <StackPanel Visibility="{Binding StateStore.OnManual, Converter={StaticResource BooleanToVisibilityConverter}}">
+                
                 <StackPanel IsEnabled="{Binding StateStore.IsGrabEnabled}">
                     <Button Command="{Binding GrabCommand}" IsEnabled="{Binding StateStore.IsLiveMode, Converter={StaticResource InverseBooleanConverter}}">
                         <DockPanel>
                             <Image>
                                 <Image.Source>
-                                    <BitmapImage UriSource="/Images/media_play.png"/>
+                                    <BitmapImage UriSource="/Images/magnifying_glass.png"/>
                                 </Image.Source>
                             </Image>
-                            <TextBlock Text="Grab"/>
+                            <TextBlock Text="Inspect"/>
                         </DockPanel>
                     </Button>
                     <Button Command="{Binding LiveCommand}" IsEnabled="{Binding StateStore.IsLiveMode, Converter={StaticResource InverseBooleanConverter}}">
@@ -26,7 +27,7 @@
                             <DockPanel>
                                 <Image>
                                     <Image.Source>
-                                        <BitmapImage UriSource="/Images/videocamera.png"/>
+                                        <BitmapImage UriSource="/Images/media_play.png"/>
                                     </Image.Source>
                                 </Image>
                                 <TextBlock>Live</TextBlock>
@@ -38,7 +39,7 @@
                             <DockPanel>
                                 <Image>
                                     <Image.Source>
-                                        <BitmapImage UriSource="/Images/videocamera.png"/>
+                                        <BitmapImage UriSource="/Images/media_stop.png"/>
                                     </Image.Source>
                                 </Image>
                                 <TextBlock>Stop</TextBlock>

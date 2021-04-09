@@ -26,7 +26,7 @@
                         <DockPanel>
                             <Image>
                                 <Image.Source>
-                                    <BitmapImage UriSource="/Images/gears.png"/>
+                                    <BitmapImage UriSource="/Images/keyboard_cordless.png"/>
                                 </Image.Source>
                             </Image>
                             <TextBlock>Communication</TextBlock>
@@ -55,11 +55,43 @@
                         <DockPanel>
                             <Image>
                                 <Image.Source>
-                                    <BitmapImage UriSource="/Images/gears.png"/>
+                                    <BitmapImage UriSource="/Images/camera2.png"/>
                                 </Image.Source>
                             </Image>
                             <TextBlock>Camera</TextBlock>
                         </DockPanel>
+                        <UniformGrid Columns="3" Margin="4">
+                            <Button Command="{Binding CameraConnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected, Converter={StaticResource InverseBooleanConverter}}">
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/checkbox.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>Connect</TextBlock>
+                                </DockPanel>
+                            </Button>
+                            <Button Command="{Binding CameraDisconnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected}">
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/checkbox_unchecked.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>Disconnect</TextBlock>
+                                </DockPanel>
+                            </Button>
+                            <Button Command="{Binding CameraRefreshCommand}">
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/refresh.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>Refresh</TextBlock>
+                                </DockPanel>
+                            </Button>
+                        </UniformGrid>
                         <UniformGrid Columns="2" Margin="4">
                             <TextBlock>Selected Camera</TextBlock>
                             <ComboBox ItemsSource="{Binding CameraInfos}" SelectedItem="{Binding CoreConfig.CameraInfo}">
@@ -70,43 +102,60 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </UniformGrid>
-                        <UniformGrid Columns="3" Margin="60 4 4 4">
-                            <Button Command="{Binding CameraConnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected, Converter={StaticResource InverseBooleanConverter}}">
-                                <TextBlock Text="Connect"/>
-                            </Button>
-                            <Button Command="{Binding CameraDisconnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected}">
-                                <TextBlock Text="Disconnect"/>
-                            </Button>
-                            <Button Command="{Binding CameraRefreshCommand}">
-                                <TextBlock Text="Refresh"/>
-                            </Button>
-                        </UniformGrid>
                         <UniformGrid Columns="2" Margin="4">
                             <TextBlock>Trigger Mode</TextBlock>
                             <DockPanel>
                                 <Button DockPanel.Dock="Right" Command="{Binding SetTriggerModeCommand}">
-                                    <TextBlock Text="Set"/>
+                                    <DockPanel>
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Images/checkbox.png"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <!--<TextBlock Text="Set"/>-->
+                                    </DockPanel>
                                 </Button>
                                 <CheckBox IsChecked="{Binding ParameterInfo.OnTriggerMode}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DockPanel>
                             <TextBlock>Exposure Auto</TextBlock>
                             <DockPanel>
                                 <Button DockPanel.Dock="Right" Command="{Binding SetAutoCommand}" CommandParameter="{x:Static cameras:ECameraAutoType.Exposure}">
-                                    <TextBlock Text="Set"/>
+                                    <DockPanel>
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Images/checkbox.png"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <!--<TextBlock Text="Set"/>-->
+                                    </DockPanel>
                                 </Button>
                                 <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[Exposure]}"/>
                             </DockPanel>
                             <TextBlock>Gain Auto</TextBlock>
                             <DockPanel>
                                 <Button DockPanel.Dock="Right" Command="{Binding SetAutoCommand}" CommandParameter="{x:Static cameras:ECameraAutoType.Gain}">
-                                    <TextBlock Text="Set"/>
+                                    <DockPanel>
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Images/checkbox.png"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <!--<TextBlock Text="Set"/>-->
+                                    </DockPanel>
                                 </Button>
                                 <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[Gain]}"/>
                             </DockPanel>
                             <TextBlock>White Balnce Auto</TextBlock>
                             <DockPanel>
                                 <Button DockPanel.Dock="Right" Command="{Binding SetAutoCommand}" CommandParameter="{x:Static cameras:ECameraAutoType.WhiteBalance}">
-                                    <TextBlock Text="Set"/>
+                                    <DockPanel>
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Images/checkbox.png"/>
+                                            </Image.Source>
+                                        </Image>
+                                        <!--<TextBlock Text="Set"/>-->
+                                    </DockPanel>
                                 </Button>
                                 <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[WhiteBalance]}"/>
                             </DockPanel>
@@ -136,28 +185,63 @@
                         <DockPanel>
                             <Image>
                                 <Image.Source>
-                                    <BitmapImage UriSource="/Images/gears.png"/>
+                                    <BitmapImage UriSource="/Images/lightbulb.png"/>
                                 </Image.Source>
                             </Image>
                             <TextBlock>Light</TextBlock>
                         </DockPanel>
-                        <UniformGrid Margin="4" Columns="2" IsEnabled="{Binding StateStore.LightInfo.IsConnected}">
-                            <Button Command="{Binding LightOnCommand}">
-                                <TextBlock Text="On"/>
-                            </Button>
-                            <Button Command="{Binding LightOffCommand}">
-                                <TextBlock Text="Off"/>
-                            </Button>
-                        </UniformGrid>
                         <UniformGrid Columns="3" Margin="4">
                             <Button Command="{Binding LightConnectCommand}" IsEnabled="{Binding StateStore.LightInfo.IsConnected, Converter={StaticResource InverseBooleanConverter}}">
-                                <TextBlock Text="Connect"/>
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/checkbox.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>Connect</TextBlock>
+                                </DockPanel>
                             </Button>
                             <Button Command="{Binding LightDisconnectCommand}" IsEnabled="{Binding StateStore.LightInfo.IsConnected}">
-                                <TextBlock Text="Disconnect"/>
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/checkbox_unchecked.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>Disconnect</TextBlock>
+                                </DockPanel>
                             </Button>
                             <Button Command="{Binding LightRefreshCommand}">
-                                <TextBlock Text="Refresh"/>
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/refresh.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>Refresh</TextBlock>
+                                </DockPanel>
+                            </Button>
+                        </UniformGrid>
+                        <UniformGrid Margin="4" Columns="2" IsEnabled="{Binding StateStore.LightInfo.IsConnected}">
+                            <Button Command="{Binding LightOnCommand}">
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/switch2_on.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>On</TextBlock>
+                                </DockPanel>
+                            </Button>
+                            <Button Command="{Binding LightOffCommand}">
+                                <DockPanel>
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Images/switch2_off.png"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock>Off</TextBlock>
+                                </DockPanel>
                             </Button>
                         </UniformGrid>
                         <UniformGrid Margin="4" Columns="2">
@@ -202,10 +286,10 @@
                         <DockPanel>
                             <Image>
                                 <Image.Source>
-                                    <BitmapImage UriSource="/Images/gears.png"/>
+                                    <BitmapImage UriSource="/Images/export.png"/>
                                 </Image.Source>
                             </Image>
-                            <TextBlock>Result Setting</TextBlock>
+                            <TextBlock>Result</TextBlock>
                         </DockPanel>
                         <UniformGrid Columns="2">
                             <TextBlock>Path</TextBlock>
@@ -220,7 +304,7 @@
                                     <DockPanel>
                                         <Image Width="16" Height="16">
                                             <Image.Source>
-                                                <BitmapImage UriSource="/Images/save_as.png"/>
+                                                <BitmapImage UriSource="/Images/folder_out.png"/>
                                             </Image.Source>
                                         </Image>
                                     </DockPanel>

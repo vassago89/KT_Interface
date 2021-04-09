@@ -23,13 +23,34 @@
         <Border Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding ZoomInCommand}">
-                    <TextBlock Text="Zoom In"/>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/zoom_in.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="Zoom In"/>
+                    </DockPanel>
                 </Button>
                 <Button Command="{Binding ZoomOutCommand}">
-                    <TextBlock Text="Zoom Out"/>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/zoom_out.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="Zoom Out"/>
+                    </DockPanel>
                 </Button>
                 <Button Command="{Binding ZoomFitCommand}">
-                    <TextBlock Text="Zoom Fit"/>
+                    <DockPanel>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="/Images/view_1_1.png"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="Zoom Fit"/>
+                    </DockPanel>
                 </Button>
             </StackPanel>
         </Border>
