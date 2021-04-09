@@ -259,3 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/SDK/Basler_pylon_6.2.0.21487.exe
+/SDK/MVS_STD_3.2.1_200609.exe
