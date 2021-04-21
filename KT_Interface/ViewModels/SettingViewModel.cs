@@ -46,10 +46,14 @@ namespace KT_Interface.ViewModels
 
     class SettingViewModel : BindableBase
     {
+        public StateStore StateStore { get; private set; }
+
         public DelegateCommand SaveCommand { get; set; }
         
-        public SettingViewModel(CoreConfig coreConfig)
+        public SettingViewModel(StateStore stateStore, CoreConfig coreConfig)
         {
+            StateStore = stateStore;
+
             SaveCommand = new DelegateCommand(() =>
             {
                 File.WriteAllText("CoreConfig.json", JsonConvert.SerializeObject(coreConfig));

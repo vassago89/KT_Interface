@@ -63,7 +63,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </UniformGrid>
-                <UniformGrid Columns="2" Margin="4">
+                <UniformGrid Columns="2" Margin="4" IsEnabled="{Binding StateStore.CameraInfo.IsConnected}">
                     <TextBlock>Trigger Mode</TextBlock>
                     <DockPanel>
                         <Button DockPanel.Dock="Right" Command="{Binding SetTriggerModeCommand}">
