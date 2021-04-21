@@ -128,6 +128,10 @@
     <Compile Include="Services\ZoomService.cs" />
     <Compile Include="StateStore.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
+    <Compile Include="ViewModels\SettingCameraViewModel.cs" />
+    <Compile Include="ViewModels\SettingCommunicationViewModel.cs" />
+    <Compile Include="ViewModels\SettingExportViewModel.cs" />
+    <Compile Include="ViewModels\SettingLightViewModel.cs" />
     <Compile Include="ViewModels\UsageViewModel.cs" />
     <Compile Include="ViewModels\CommunicationViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
@@ -153,6 +157,18 @@
     </Compile>
     <Compile Include="Views\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingCameraView.xaml.cs">
+      <DependentUpon>SettingCameraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingCommunicationView.xaml.cs">
+      <DependentUpon>SettingCommunicationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingExportView.xaml.cs">
+      <DependentUpon>SettingExportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingLightView.xaml.cs">
+      <DependentUpon>SettingLightView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
@@ -217,6 +233,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingCameraView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingCommunicationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingExportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingLightView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
