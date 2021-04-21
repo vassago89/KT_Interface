@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="KT_Interface.Views.SettingCameraView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KT_Interface.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:cameras="clr-namespace:KT_Interface.Core.Cameras;assembly=KT_Interface.Core"
+             xmlns:controls="clr-namespace:KT_Interface.Controls.Views"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <DockPanel>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage UriSource="/Images/camera2.png"/>
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>Camera</TextBlock>
+                </DockPanel>
+                <UniformGrid Columns="3" Margin="4">
+                    <Button Command="{Binding ConnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected, Converter={StaticResource InverseBooleanConverter}}">
+                        <DockPanel>
+                            <Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Images/checkbox.png"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock>Connect</TextBlock>
+                        </DockPanel>
+                    </Button>
+                    <Button Command="{Binding DisconnectCommand}" IsEnabled="{Binding StateStore.CameraInfo.IsConnected}">
+                        <DockPanel>
+                            <Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Images/checkbox_unchecked.png"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock>Disconnect</TextBlock>
+                        </DockPanel>
+                    </Button>
+                    <Button Command="{Binding RefreshCommand}">
+                        <DockPanel>
+                            <Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Images/refresh.png"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock>Refresh</TextBlock>
+                        </DockPanel>
+                    </Button>
+                </UniformGrid>
+                <UniformGrid Columns="2" Margin="4">
+                    <TextBlock>Selected Camera</TextBlock>
+                    <ComboBox ItemsSource="{Binding CameraInfos}" SelectedItem="{Binding CoreConfig.CameraInfo}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ModelName}" Style="{StaticResource App_TextBlock}" Foreground="Black"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </UniformGrid>
+                <UniformGrid Columns="2" Margin="4">
+                    <TextBlock>Trigger Mode</TextBlock>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Command="{Binding SetTriggerModeCommand}">
+                            <DockPanel>
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/checkbox.png"/>
+                                    </Image.Source>
+                                </Image>
+                                <!--<TextBlock Text="Set"/>-->
+                            </DockPanel>
+                        </Button>
+                        <CheckBox IsChecked="{Binding ParameterInfo.OnTriggerMode}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </DockPanel>
+                    <TextBlock>Exposure Auto</TextBlock>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Command="{Binding SetAutoCommand}" CommandParameter="{x:Static cameras:ECameraAutoType.Exposure}">
+                            <DockPanel>
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/checkbox.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </DockPanel>
+                        </Button>
+                        <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[Exposure]}"/>
+                    </DockPanel>
+                    <TextBlock>Gain Auto</TextBlock>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Command="{Binding SetAutoCommand}" CommandParameter="{x:Static cameras:ECameraAutoType.Gain}">
+                            <DockPanel>
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/checkbox.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </DockPanel>
+                        </Button>
+                        <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[Gain]}"/>
+                    </DockPanel>
+                    <TextBlock>White Balnce Auto</TextBlock>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Command="{Binding SetAutoCommand}" CommandParameter="{x:Static cameras:ECameraAutoType.WhiteBalance}">
+                            <DockPanel>
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/checkbox.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </DockPanel>
+                        </Button>
+                        <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[WhiteBalance]}"/>
+                    </DockPanel>
+                    <TextBlock>Offset X (pixel)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetX}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <TextBlock>Offset Y (pixel)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetY}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <TextBlock>Width (pixel)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Width}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <TextBlock>Height (pixel)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Height}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <TextBlock>Exposure Time (us)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Exposure}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <TextBlock>Gain (x)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Gain}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <TextBlock>Frame Rate (fps)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.FrameRate}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <TextBlock>Trigger Delay (um)</TextBlock>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.TriggerDelay}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                </UniformGrid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

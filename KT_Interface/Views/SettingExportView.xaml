@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="KT_Interface.Views.SettingExportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KT_Interface.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <DockPanel>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage UriSource="/Images/export.png"/>
+                        </Image.Source>
+                    </Image>
+                    <TextBlock>Export</TextBlock>
+                </DockPanel>
+                <UniformGrid Columns="2">
+                    <TextBlock>Result Path</TextBlock>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding ResultPath}"/>
+                        <Grid Background="Transparent"/>
+                        <Button Grid.Column="1" Command="{Binding ResultPathCommand}">
+                            <DockPanel>
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/folder_out.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </DockPanel>
+                        </Button>
+                    </Grid>
+                    <TextBlock Text="Type"/>
+                    <ComboBox ItemsSource="{Binding SaveModes}" SelectedItem="{Binding CoreConfig.SaveMode}"/>
+                    <TextBlock>Format</TextBlock>
+                    <ComboBox ItemsSource="{Binding ImageFormats}" SelectedItem="{Binding CoreConfig.ImageFormat}"/>
+                    <TextBlock>Result Storing Days</TextBlock>
+                    <TextBox Text="{Binding CoreConfig.ResultStoringDays}"/>
+                    <TextBlock>Log Path</TextBlock>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding LogPath}"/>
+                        <Grid Background="Transparent"/>
+                        <Button Grid.Column="1" Command="{Binding LogPathCommand}">
+                            <DockPanel>
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Images/folder_out.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </DockPanel>
+                        </Button>
+                    </Grid>
+                    <TextBlock>Log Storing Days</TextBlock>
+                    <TextBox Text="{Binding CoreConfig.LogStoringDays}"/>
+                </UniformGrid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
