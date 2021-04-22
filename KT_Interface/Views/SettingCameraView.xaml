@@ -118,21 +118,21 @@
                         <ComboBox ItemsSource="{Binding AutoValues}" SelectedItem="{Binding ParameterInfo.AutoValues[WhiteBalance]}"/>
                     </DockPanel>
                     <TextBlock>Offset X (pixel)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetX}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetX}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                     <TextBlock>Offset Y (pixel)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetY}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.OffsetY}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                     <TextBlock>Width (pixel)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Width}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Width}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                     <TextBlock>Height (pixel)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Height}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Height}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                     <TextBlock>Exposure Time (us)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Exposure}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Exposure}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                     <TextBlock>Gain (x)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Gain}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.Gain}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                     <TextBlock>Frame Rate (fps)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.FrameRate}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.FrameRate}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                     <TextBlock>Trigger Delay (um)</TextBlock>
-                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.TriggerDelay}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingView}}"/>
+                    <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.TriggerDelay}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                 </UniformGrid>
             </StackPanel>
         </ScrollViewer>

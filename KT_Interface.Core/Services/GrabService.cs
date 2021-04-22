@@ -133,7 +133,16 @@ namespace KT_Interface.Core.Services
         public bool SetTriggerMode(bool isTriggerMode)
         {
             if (_camera != null)
-                return _camera.SetTriggerMode(isTriggerMode);
+            {
+                if (_camera.SetTriggerMode(isTriggerMode))
+                {
+                    if (ParameterChanged != null)
+                        ParameterChanged(GetParameterInfo());
+
+                    return true;
+                }
+            }
+                
 
             return false;
         }
@@ -141,7 +150,15 @@ namespace KT_Interface.Core.Services
         public bool SetAuto(ECameraAutoType type, ECameraAutoValue value)
         {
             if (_camera != null)
-               return _camera.SetAuto(type, value);
+            {
+                if (_camera.SetAuto(type, value))
+                {
+                    if (ParameterChanged != null)
+                        ParameterChanged(GetParameterInfo());
+
+                    return true;
+                }
+            }
 
             return false;
         }
@@ -149,7 +166,16 @@ namespace KT_Interface.Core.Services
         public bool SetROI(uint x, uint y, uint width, uint height)
         {
             if (_camera != null)
-                return _camera.SetROI(x, y, width, height);
+            {
+                if (_camera.SetROI(x, y, width, height))
+                {
+                    if (ParameterChanged != null)
+                        ParameterChanged(GetParameterInfo());
+
+                    return true;
+                }
+            }
+                
 
             return false;
         }
@@ -171,10 +197,10 @@ namespace KT_Interface.Core.Services
                     _camera = _hikFactory.Connect(info);
                     break;
             }
-
+            
             _camera.ImageGrabbed = Grabbed;
             _logger.Info("Connect");
-
+            
             return true;
         }
 

@@ -27,6 +27,8 @@ namespace KT_Interface.Controls.ViewModels
                 SetProperty(ref _cameraParameter, value);
                 if (_cameraParameter != null)
                     Current = _cameraParameter.Current;
+                else
+                    Current = 0;
             }
         }
 
@@ -39,6 +41,9 @@ namespace KT_Interface.Controls.ViewModels
             }
             set
             {
+                if (_cameraParameter == null)
+                    return;
+
                 SetProperty(ref _current, value);
                 _cameraParameter.Current = Math.Max(_cameraParameter.Min, Math.Min(_cameraParameter.Max, _current));
             }

@@ -73,7 +73,7 @@ namespace KT_Interface.ViewModels
             AutoValues = Enum.GetValues(typeof(ECameraAutoValue)).Cast<ECameraAutoValue>();
 
             CameraInfos = grabService.GetDeviceInfos();
-
+            
             if (grabService.IsConnected())
                 ParameterInfo = grabService.GetParameterInfo();
 
@@ -108,7 +108,6 @@ namespace KT_Interface.ViewModels
                     return;
 
                 grabService.SetAuto(type.Value, ParameterInfo.AutoValues[type.Value]);
-                ParameterInfo = grabService.GetParameterInfo();
             });
 
             SetTriggerModeCommand = new DelegateCommand(() =>
