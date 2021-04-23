@@ -100,6 +100,7 @@
     <Compile Include="Infos\ParameterInfo.cs" />
     <Compile Include="Infos\GrabInfo.cs" />
     <Compile Include="Infos\SerialInfo.cs" />
+    <Compile Include="Patterns\PipeLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GrabService.cs" />
     <Compile Include="Services\HostCommService.cs" />

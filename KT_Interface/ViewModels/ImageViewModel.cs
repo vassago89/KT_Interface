@@ -1,4 +1,5 @@
 ﻿using KT_Interface.Core.Infos;
+using KT_Interface.Core.Patterns;
 using KT_Interface.Core.Services;
 using KT_Interface.Services;
 using Prism.Commands;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,9 +39,12 @@ namespace KT_Interface.ViewModels
         public DelegateCommand ZoomOutCommand { get; set; }
         public DelegateCommand ZoomFitCommand { get; set; }
 
+        private PipeLine<GrabInfo> _pipeLine;
+
         public ImageViewModel(
             GrabService grabService,
-            ZoomService zoomService)
+            ZoomService zoomService,
+            CancellationToken token)
         {
             grabService.ImageGrabbed += ImageGrabbed;
 
@@ -48,9 +53,12 @@ namespace KT_Interface.ViewModels
             ZoomFitCommand = new DelegateCommand(ZoomFit);
             ZoomInCommand = new DelegateCommand(ZoomIn);
             ZoomOutCommand = new DelegateCommand(ZoomOut);
+
+            _pipeLine = new SinglePipeLine<GrabInfo>(info => DrawImage(info), -1, true);
+            _pipeLine.Run(token);
         }
 
-        private void ImageGrabbed(GrabInfo grabInfo)
+        private void DrawImage(GrabInfo grabInfo)
         {
             ImageSource source = null;
 
@@ -76,6 +84,11 @@ namespace KT_Interface.ViewModels
                 if (zoomFitRequired)
                     FrameworkElement.Dispatcher.Invoke(ZoomFit);
             }
+        }
+
+        private void ImageGrabbed(GrabInfo grabInfo)
+        {
+            _pipeLine.Enqueue(grabInfo);
         }
 
         public void ZoomFit()
