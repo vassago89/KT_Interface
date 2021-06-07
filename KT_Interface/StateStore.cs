@@ -36,10 +36,25 @@ namespace KT_Interface
             set
             {
                 SetProperty(ref _onManual, value);
+                OnAuto = !_onManual;
+
                 CheckState();
                 IsSettingMode = false;
                 IsLogMode = false;
                 Mode = _onManual ? "Manual" : "Auto";
+            }
+        }
+
+        private bool _onAuto;
+        public bool OnAuto
+        {
+            get
+            {
+                return _onAuto;
+            }
+            set
+            {
+                SetProperty(ref _onAuto, value);
             }
         }
 
@@ -205,8 +220,8 @@ namespace KT_Interface
                 && _inspectorInfo.IsConnected;
 
             _appState.IsGrabEnabled = IsGrabEnabled =
-                _cameraInfo.IsConnected
-                && _lightInfo.IsConnected;
+                _cameraInfo.IsConnected;
+                //&& _lightInfo.IsConnected;
         }
     }
 }

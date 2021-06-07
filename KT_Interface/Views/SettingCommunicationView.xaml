@@ -33,6 +33,9 @@
                         <TextBox Text="{Binding ResultTimeout}" DockPanel.Dock="Right" Width="100"/>
                         <Slider Value="{Binding ResultTimeout}" Minimum="0" Maximum="10000" VerticalAlignment="Center"/>
                     </DockPanel>
+                    <Button Command="{Binding TestCommand}">
+                        <TextBlock>Test</TextBlock>
+                    </Button>
                 </UniformGrid>
             </StackPanel>
         </ScrollViewer>

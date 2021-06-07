@@ -26,6 +26,9 @@ namespace KT_Interface.Core
         public int HostPort { get; set; }
         public int InspectorPort { get; set; }
 
+        public double ResolutionWidth { get; set; }
+        public double ResolutionHeight { get; set; }
+
         public CameraInfo CameraInfo { get; set; }
         public SerialInfo LightSerialInfo { get; set; }
         public int ReponseTimeout { get; set; }
@@ -47,6 +50,8 @@ namespace KT_Interface.Core
 
         public int MaxLogCount { get; set; }
 
+        public int GrabCount { get; set; }
+
         public CoreConfig()
         {
             TempPath = "Temp";
@@ -54,7 +59,7 @@ namespace KT_Interface.Core
             LightSerialInfo = new SerialInfo();
 
             HostPort = 5555;
-            InspectorPort = 4444;
+            InspectorPort = 4000;
             ResultPath = "../Result";
             LogPath = "../Log";
             ImageFormat = ImageFormat.Bmp;
@@ -70,6 +75,11 @@ namespace KT_Interface.Core
             StoringCheckDelay = 60;
 
             MaxLogCount = 1000;
+
+            GrabCount = 220;
+
+            ResolutionWidth = 100;
+            ResolutionHeight = 100;
         }
 
         public string GetTempPath()

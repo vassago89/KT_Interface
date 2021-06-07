@@ -25,6 +25,8 @@ namespace KT_Interface.Core.Cameras
         private int _count;
         private int _grabCount;
         public Action<GrabInfo> ImageGrabbed { get; set; }
+        public Action GrabStarted { get; set; }
+        public Action GrabDone { get; set; }
 
         private static MyCamera.cbOutputExdelegate _imageCallback;
         public static MyCamera.cbOutputExdelegate ImageCallback 
@@ -62,6 +64,9 @@ namespace KT_Interface.Core.Cameras
 
         public bool StartGrab(int grabCount = -1)
         {
+            if (GrabStarted != null)
+                GrabStarted();
+
             _count = 0;
             _grabCount = grabCount;
 
@@ -98,8 +103,13 @@ namespace KT_Interface.Core.Cameras
             if (camera._grabCount > 0)
             {
                 camera._count++;
-                if (camera._grabCount >= camera._count)
+                if (camera._count > camera._grabCount)
+                {
                     camera.Stop();
+                    if (camera.GrabDone != null)
+                        camera.GrabDone();
+                }
+                    
             }
 
             if (camera.ImageGrabbed != null)

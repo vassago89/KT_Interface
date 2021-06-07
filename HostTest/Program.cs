@@ -21,7 +21,7 @@ namespace HostTest
             {
                 TcpClient client = new TcpClient();
 
-                client.Connect("localhost", 5555);
+                client.Connect("localhost", 5000);
 
                 var key = Console.ReadKey();
                 
@@ -37,7 +37,7 @@ namespace HostTest
                 }
                 else if (key.Key == ConsoleKey.D3)
                 {
-                    message = "Stop\n";
+                    message = "Get_stat\r";
                 }
 
                 byte[] buff = Encoding.ASCII.GetBytes(message);
@@ -52,9 +52,7 @@ namespace HostTest
 
                 if (output == "Ack")
                 {
-                    nbytes = stream.Read(outbuf, 0, outbuf.Length);
-                    output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
-                    Console.WriteLine(output);
+                    
                 }
 
                 stream.Close();

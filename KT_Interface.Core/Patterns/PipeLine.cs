@@ -51,8 +51,8 @@ namespace KT_Interface.Core.Patterns
                         _resetEvent.Reset();
 
                     _resetEvent.WaitOne();
-
-                    if (Queue.TryDequeue(out T data))
+                    T data;
+                    if (Queue.TryDequeue(out data))
                     {
                         if (_islastAccess && Count > 1)
                         {
@@ -66,15 +66,21 @@ namespace KT_Interface.Core.Patterns
                         }
                         catch (Exception e)
                         {
-                            ExceptionHanlder?.Invoke(this, e);
+                            if (ExceptionHanlder != null)
+                                ExceptionHanlder(this, e);
                         }
 
                         Count = Queue.Count;
                     }
 
                 }
+
+                T temp;
                 while (!Queue.IsEmpty)
-                    Queue.TryDequeue(out var result);
+                {
+                    Queue.TryDequeue(out temp);
+                }
+                    
 
                 Count = Queue.Count;
 

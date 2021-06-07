@@ -93,10 +93,10 @@ namespace KT_Interface.ViewModels
             Total++;
             switch (result.Judgement)
             {
-                case EJudgement.OK:
+                case EJudgement.Pass:
                     OK++;
                     break;
-                case EJudgement.NG:
+                case EJudgement.Fail:
                     NG++;
                     break;
                 case EJudgement.SKIP:

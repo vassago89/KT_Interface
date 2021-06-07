@@ -44,9 +44,9 @@ namespace KT_Interface.ViewModels
             Result = result;
             switch (result.Judgement)
             {
-                case EJudgement.OK:
+                case EJudgement.Pass:
                     break;
-                case EJudgement.NG:
+                case EJudgement.Fail:
                     break;
                 case EJudgement.SKIP:
                     break;

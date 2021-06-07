@@ -20,6 +20,8 @@
                     <TextBlock>Export</TextBlock>
                 </DockPanel>
                 <UniformGrid Columns="2">
+                    <TextBlock>Grab Count</TextBlock>
+                    <TextBox Text="{Binding CoreConfig.GrabCount}"/>
                     <TextBlock>Result Path</TextBlock>
                     <Grid>
                         <Grid.ColumnDefinitions>

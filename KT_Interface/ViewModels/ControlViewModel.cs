@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -37,20 +38,32 @@ namespace KT_Interface.ViewModels
 
             GrabCommand = new DelegateCommand(async () =>
             {
-                if (lightControlService.SetValue(coreConfig.LightValues) && lightControlService.LightOn())
-                {
-                    var grabInfo = await grabService.Grab();
-                    lightControlService.LightOff();
+                lightControlService.SetValue(coreConfig.LightValues);
+                lightControlService.LightOn();
 
-                    if (grabInfo != null && coreConfig.UseInspector && stateStore.IsManualEnabled)
-                        inspectService.Inspect(grabInfo.Value);
-                }
+                var grabInfo = await grabService.Grab();
+                lightControlService.LightOff();
+
+                //if (grabInfo != null && coreConfig.UseInspector && stateStore.IsManualEnabled)
+                //    inspectService.Inspect(grabInfo.Value);
+
+                //if (lightControlService.SetValue(coreConfig.LightValues) && lightControlService.LightOn())
+                //{
+                //    var grabInfo = await grabService.Grab();
+                //    lightControlService.LightOff();
+
+                //    if (grabInfo != null && coreConfig.UseInspector && stateStore.IsManualEnabled)
+                //        inspectService.Inspect(grabInfo.Value);
+                //}
             });
 
             LiveCommand = new DelegateCommand(() =>
             {
-                if (lightControlService.SetValue(coreConfig.LightValues) && lightControlService.LightOn())
-                    grabService.StartGrab();
+                lightControlService.SetValue(coreConfig.LightValues);
+                lightControlService.LightOn();
+                grabService.StartGrab();
+                //if (lightControlService.SetValue(coreConfig.LightValues) && lightControlService.LightOn())
+                    
 
                 StateStore.IsLiveMode = true;
             });

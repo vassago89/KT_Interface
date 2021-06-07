@@ -17,7 +17,9 @@ namespace KT_Interface.Core.Cameras
         private int _count;
 
         public Action<GrabInfo> ImageGrabbed { get; set; }
-        
+        public Action GrabStarted { get; set; }
+        public Action GrabDone { get; set; }
+
         public BaslerCamera(Basler.Pylon.ICameraInfo cameraInfo)
         {
             _grabCount = -1;
@@ -48,7 +50,7 @@ namespace KT_Interface.Core.Cameras
                 return false;
 
             _camera.Close();
-            _camera.Dispose(); 
+            _camera.Dispose();
 
             return true;
         }
@@ -126,8 +128,13 @@ namespace KT_Interface.Core.Cameras
                 dictionary[ECameraAutoType.Gain] = ECameraAutoValue.Continuous;
             else
                 dictionary[ECameraAutoType.Gain] = ECameraAutoValue.Off;
-
-            var whiteBalanceAuto = _camera.Parameters[PLCamera.BalanceWhiteAuto].GetValue();
+            //Modify.ach.20210528.Camera ModelName Substring.Start...
+            string m_Name = _camera.Parameters[PLCamera.DeviceModelName].GetValue();
+            if ("c" == m_Name.Substring(m_Name.Length - 1, 1))
+            {
+                var whiteBalanceAuto = _camera.Parameters[PLCamera.BalanceWhiteAuto].GetValue();
+            }
+            //Modify.ach.20210528.Camera ModelName Substring.end
             if (gainAuto == PLCamera.BalanceWhiteAuto.Once)
                 dictionary[ECameraAutoType.WhiteBalance] = ECameraAutoValue.Once;
             else if (gainAuto == PLCamera.BalanceWhiteAuto.Continuous)
@@ -233,6 +240,9 @@ namespace KT_Interface.Core.Cameras
 
         public bool StartGrab(int grabCount = -1)
         {
+            if (GrabStarted != null)
+                GrabStarted();
+
             _grabCount = grabCount;
             _count = 0;
 
@@ -248,14 +258,21 @@ namespace KT_Interface.Core.Cameras
 
         private void StreamGrabber_ImageGrabbed(object sender, Basler.Pylon.ImageGrabbedEventArgs e)
         {
+
             if (_grabCount > 0)
             {
                 _count++;
 
-                if (_count >= _grabCount)
-                    Stop();
+                if (_count > _grabCount)
+                {
+                    //Modify.Choijh.2021.05.27.Insert Disable Stop Grab Code.Start...
+                    //Stop();
+                    //Modify.Choijh.2021.05.27.Insert Disable Stop Grab Code.End...
+                    if (GrabDone != null)
+                        GrabDone();
+                }
             }
-            
+
             Basler.Pylon.IGrabResult result = e.GrabResult;
 
             if (result.GrabSucceeded)
@@ -271,7 +288,7 @@ namespace KT_Interface.Core.Cameras
                         new GrabInfo(
                             EGrabResult.Success, result.Width, result.Height, 1, data));
                     }
-                    
+
                     return;
                 }
                 else
@@ -285,7 +302,7 @@ namespace KT_Interface.Core.Cameras
                         new GrabInfo(
                             EGrabResult.Success, result.Width, result.Height, 3, data));
                     }
-                    
+
                     return;
                 }
             }

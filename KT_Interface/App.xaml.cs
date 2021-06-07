@@ -33,6 +33,9 @@ namespace KT_Interface
 		{
             File.WriteAllText("CoreConfig.json", JsonConvert.SerializeObject(Container.Resolve<CoreConfig>()));
 
+            Container.Resolve<InspectService>().Disconnect();
+            Container.Resolve<GrabService>().Disconnect();
+
             _logger.Info("Exit");
             base.OnExit(e);
 		}
@@ -87,15 +90,17 @@ namespace KT_Interface
 
                 _cts = new CancellationTokenSource();
                 
+                
+
+                Container.Resolve<HostCommService>().Connect();
+                Container.Resolve<InspectService>().Connect();
+                Container.Resolve<StoringService>().Run();
+
                 if (config.CameraInfo != null)
                     Container.Resolve<GrabService>().Connect(config.CameraInfo);
 
                 if (config.LightSerialInfo != null)
                     Container.Resolve<LightControlService>().Connect();
-
-                Container.Resolve<HostCommService>().Connect();
-
-                Container.Resolve<StoringService>().Run();
             }
             catch (Exception e)
             {

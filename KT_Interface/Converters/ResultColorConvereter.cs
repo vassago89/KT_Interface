@@ -39,16 +39,15 @@ namespace KT_Interface.Converters
 
             switch (result.Judgement)
             {
-                case EJudgement.OK:
+                case EJudgement.Pass:
                     return _okBrush;
-                case EJudgement.NG:
+                case EJudgement.Fail:
                     return _ngBrush;
                 case EJudgement.SKIP:
                     return _skipBrush;
                 case EJudgement.TIMEOUT:
                     return _timeoutBrush;
             }
-
             return null;
         }
 

@@ -134,6 +134,12 @@
                     <TextBlock>Trigger Delay (um)</TextBlock>
                     <controls:ParameterControlView ParameterType="{x:Static cameras:ECameraParameter.TriggerDelay}" ParameterInfo="{Binding DataContext.ParameterInfo, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingCameraView}}"/>
                 </UniformGrid>
+                <UniformGrid Columns="2" Margin="4">
+                    <TextBlock>Width Resolution (um)</TextBlock>
+                    <TextBox Text="{Binding CoreConfig.ResolutionWidth}"/>
+                    <TextBlock>Height Resolution (um)</TextBlock>
+                    <TextBox Text="{Binding CoreConfig.ResolutionHeight}"/>
+                </UniformGrid>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <local:SubJudgementToColorConverter x:Key="SubJudgementToColorConverter"/>
         <Style TargetType="Border" BasedOn="{StaticResource App_Border}">
             <Setter Property="Margin" Value="0"/>
         </Style>
@@ -16,58 +17,106 @@
         <Style TargetType="Grid"/>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Border Grid.Row="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Command="{Binding ZoomInCommand}">
-                    <DockPanel>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage UriSource="/Images/zoom_in.png"/>
-                            </Image.Source>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <!--<ItemsControl ItemsSource="{Binding Images}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Source}">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="{Binding Degree}"/>
+                            </Image.RenderTransform>
                         </Image>
-                        <TextBlock Text="Zoom In"/>
-                    </DockPanel>
-                </Button>
-                <Button Command="{Binding ZoomOutCommand}">
-                    <DockPanel>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage UriSource="/Images/zoom_out.png"/>
-                            </Image.Source>
-                        </Image>
-                        <TextBlock Text="Zoom Out"/>
-                    </DockPanel>
-                </Button>
-                <Button Command="{Binding ZoomFitCommand}">
-                    <DockPanel>
-                        <Image>
-                            <Image.Source>
-                                <BitmapImage UriSource="/Images/view_1_1.png"/>
-                            </Image.Source>
-                        </Image>
-                        <TextBlock Text="Zoom Fit"/>
-                    </DockPanel>
-                </Button>
-            </StackPanel>
-        </Border>
-        <Grid ClipToBounds="True">
-            <Grid.Resources>
-                <Style TargetType="Image"/>
-            </Grid.Resources>
-            <Canvas x:Name="Canvas">
-                <Canvas.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="{Binding ZoomService.Scale}" ScaleY="{Binding ZoomService.Scale}"/>
-                        <TranslateTransform X="{Binding ZoomService.TranslateX}" Y="{Binding ZoomService.TranslateY}"/>
-                    </TransformGroup>
-                </Canvas.RenderTransform>
-                <Image Source="{Binding ImageSource}"/>
-            </Canvas>
-            <Border Background="Transparent" PreviewMouseWheel="Border_PreviewMouseWheel" PreviewMouseDown="Border_PreviewMouseDown" PreviewMouseUp="Border_PreviewMouseUp" PreviewMouseMove="Border_PreviewMouseMove" MouseLeave="Border_MouseLeave"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>-->
+            <DataGrid IsReadOnly="True" BorderThickness="0" Margin="-4" ItemsSource="{Binding SubResults}" SelectedItem="{Binding Selected}" Background="Black" AutoGenerateColumns="False" CanUserResizeColumns="False">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="BorderBrush" Value="White"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Background" Value="Black"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="DataGridRow">
+                        <!--<Setter Property="Background" Value="LightGray"/>-->
+                        <Setter Property="Background" Value="{Binding SubJudgement, Converter={StaticResource SubJudgementToColorConverter}}"/>
+                        <Setter Property="Margin" Value="-4"/>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Judgement" Binding="{Binding SubJudgement}"/>
+                    <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding ZoomInCommand}">
+                        <DockPanel>
+                            <Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Images/zoom_in.png"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Text="Zoom In"/>
+                        </DockPanel>
+                    </Button>
+                    <Button Command="{Binding ZoomOutCommand}">
+                        <DockPanel>
+                            <Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Images/zoom_out.png"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Text="Zoom Out"/>
+                        </DockPanel>
+                    </Button>
+                    <Button Command="{Binding ZoomFitCommand}">
+                        <DockPanel>
+                            <Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Images/view_1_1.png"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Text="Zoom Fit"/>
+                        </DockPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+            <Grid ClipToBounds="True">
+                <Grid.Resources>
+                    <Style TargetType="Image"/>
+                </Grid.Resources>
+                <Canvas x:Name="Canvas">
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding ZoomService.Scale}" ScaleY="{Binding ZoomService.Scale}"/>
+                            <TranslateTransform X="{Binding ZoomService.TranslateX}" Y="{Binding ZoomService.TranslateY}"/>
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
+                    <Image Source="{Binding ImageSource}" Visibility="{Binding StateStore.OnManual, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Image Source="{Binding Selected.ImageSource}" Visibility="{Binding StateStore.OnAuto, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </Canvas>
+                <Border Background="Transparent" PreviewMouseWheel="Border_PreviewMouseWheel" PreviewMouseRightButtonDown="Border_PreviewMouseRightButtonDown" PreviewMouseDown="Border_PreviewMouseDown" PreviewMouseUp="Border_PreviewMouseUp" PreviewMouseMove="Border_PreviewMouseMove" MouseLeave="Border_MouseLeave"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

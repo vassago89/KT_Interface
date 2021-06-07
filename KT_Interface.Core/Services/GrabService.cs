@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KT_Interface.Core.Services
@@ -21,6 +22,8 @@ namespace KT_Interface.Core.Services
         GrabInfo _grabInfo;
 
         public Action<GrabInfo> ImageGrabbed { get; set; }
+        public Action GrabDone { get; set; }
+        public Action GrabStarted { get; set; }
         public Action<CameraParameterInfo> ParameterChanged { get; set; }
 
         public GrabService()
@@ -197,8 +200,13 @@ namespace KT_Interface.Core.Services
                     _camera = _hikFactory.Connect(info);
                     break;
             }
-            
+
+            if (_camera == null)
+                return false;
+
             _camera.ImageGrabbed = Grabbed;
+            _camera.GrabDone = Done;
+            _camera.GrabStarted = Started;
             _logger.Info("Connect");
             
             return true;
@@ -233,6 +241,18 @@ namespace KT_Interface.Core.Services
             
             if (ImageGrabbed != null)
                 ImageGrabbed(grabInfo);
+        }
+
+        private void Done()
+        {
+            if (GrabDone != null)
+                GrabDone();
+        }
+
+        private void Started()
+        {
+            if (GrabStarted != null)
+                GrabStarted();
         }
     }
 }
