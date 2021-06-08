@@ -62,8 +62,16 @@ namespace KT_Interface.ViewModels
                 lightControlService.SetValue(coreConfig.LightValues);
                 lightControlService.LightOn();
                 grabService.StartGrab();
+
                 //if (lightControlService.SetValue(coreConfig.LightValues) && lightControlService.LightOn())
-                    
+                
+                //if (inspectService.Inspected != null)
+                //{
+                //    List<SubResult> subResults = new List<SubResult>();
+                //    subResults.Add(new SubResult(@"Pass, C:\Projects\KT_Interface_20210602\KT_Interface_20210602\KT_Interface\bin\Debug\Temp\1234_20210408120030.Bmp"));
+                //    subResults.Add(new SubResult(@"Fail, C:\Projects\KT_Interface_20210602\KT_Interface_20210602\KT_Interface\bin\Debug\Temp\2345_20210408124853.Bmp"));
+                //    inspectService.Inspected(new InspectResult(EJudgement.Pass, subResults));
+                //}
 
                 StateStore.IsLiveMode = true;
             });

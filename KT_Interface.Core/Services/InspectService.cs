@@ -41,16 +41,13 @@ namespace KT_Interface.Core.Services
         public string Resultmessage { get; set; }
         public string FolderPath { get; set; }
         //Modify.ach.20210601.Camera 결과값 매개변수 추가.end...
-        public Rect? Rect { get; set; }
-
         public IEnumerable<SubResult> SubResults { get; }
 
-        public InspectResult(EJudgement judgement, IEnumerable<SubResult> subResults, string waferID = null, Rect? rect = null, string resultmessage ="", string folderPath = "")
+        public InspectResult(EJudgement judgement, IEnumerable<SubResult> subResults, string waferID = null, string resultmessage ="", string folderPath = "")
         {
             Judgement = judgement;
             SubResults = subResults;
             WaferID = waferID;
-            Rect = rect;
             //Modify.ach.20210601.Camera 결과값 매개변수 추가.Start...
             Resultmessage = resultmessage;
             FolderPath = folderPath;
@@ -81,8 +78,12 @@ namespace KT_Interface.Core.Services
 
         public GrabInfo GetGrabinfo()
         {
-            var mat = Cv2.ImRead(FilePath);
+            if (File.Exists(FilePath) == false)
+                return new GrabInfo(EGrabResult.Error);
 
+            var fileInfo = new FileInfo(FilePath);
+            var mat = new Mat(fileInfo.FullName, ImreadModes.AnyColor);
+            
             var length = mat.Width * mat.Height * mat.Channels();
             var buffer = new byte[length];
             Marshal.Copy(mat.Data, buffer, 0, length);

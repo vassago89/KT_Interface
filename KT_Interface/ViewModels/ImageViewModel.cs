@@ -87,8 +87,8 @@ namespace KT_Interface.ViewModels
         public DelegateCommand ZoomOutCommand { get; set; }
         public DelegateCommand ZoomFitCommand { get; set; }
 
-        private IEnumerable<SubResult> _subResults;
-        public IEnumerable<SubResult> SubResults 
+        private IEnumerable<SubResultWrapper> _subResults;
+        public IEnumerable<SubResultWrapper> SubResults 
         { 
             get
             {
@@ -100,8 +100,8 @@ namespace KT_Interface.ViewModels
             }
         }
 
-        private SubResult _selected;
-        public SubResult Selected
+        private SubResultWrapper _selected;
+        public SubResultWrapper Selected
         {
             get
             {
@@ -118,6 +118,66 @@ namespace KT_Interface.ViewModels
 
         public StateStore StateStore { get; }
 
+        private bool _isCalcMode;
+        public bool IsCalcMode
+        {
+            get
+            {
+                return _isCalcMode;
+            }
+            set
+            {
+                SetProperty(ref _isCalcMode, value);
+            }
+        }
+
+        private Point _startPt;
+        public Point StartPt
+        {
+            get
+            {
+                return _startPt;
+            }
+            set
+            {
+                SetProperty(ref _startPt, value);
+                CalcLength = 0;
+            }
+        }
+
+        private Point _endPt;
+        public Point EndPt
+        {
+            get
+            {
+                return _endPt;
+            }
+            set
+            {
+                SetProperty(ref _endPt, value);
+
+                if (ZoomService.Scale == 0)
+                    return;
+
+                CalcLength = Math.Sqrt(
+                    Math.Pow(_startPt.X - _endPt.X, 2) * _coreConfig.ResolutionWidth 
+                    + Math.Pow(_startPt.Y - _endPt.Y, 2) * _coreConfig.ResolutionHeight) / ZoomService.Scale;
+            }
+        }
+
+        private double _calcLength;
+        public double CalcLength
+        {
+            get
+            {
+                return _calcLength;
+            }
+            set
+            {
+                SetProperty(ref _calcLength, value);
+            }
+        }
+
         public ImageViewModel(
             GrabService grabService,
             ZoomService zoomService,
@@ -129,7 +189,7 @@ namespace KT_Interface.ViewModels
             StateStore = stateStore;
             _coreConfig = coreConfig;
 
-            SubResults = new ObservableCollection<SubResult>();
+            SubResults = new ObservableCollection<SubResultWrapper>();
             BindingOperations.EnableCollectionSynchronization(SubResults, new object());
 
             grabService.ImageGrabbed += ImageGrabbed;
@@ -186,7 +246,11 @@ namespace KT_Interface.ViewModels
 
         private void Inspected(InspectResult result)
         {
-            SubResults = result.SubResults;
+            var wrappers = new List<SubResultWrapper>();
+            foreach (var sub in result.SubResults)
+                wrappers.Add(new SubResultWrapper(sub));
+
+            SubResults = wrappers;
         }
     }
     

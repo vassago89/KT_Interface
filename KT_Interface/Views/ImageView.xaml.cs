@@ -18,6 +18,11 @@ using System.Windows.Shapes;
 
 namespace KT_Interface.Views
 {
+    public enum EDragMode
+    {
+        None, Panning, Calc
+    }
+
     public class SubJudgementToColorConverter : IValueConverter
     {
         SolidColorBrush _passBrush;
@@ -58,9 +63,9 @@ namespace KT_Interface.Views
     public partial class ImageView : UserControl
     {
         Point _initPos;
-        bool _isDrag;
-
+        
         private ImageViewModel _viewModel;
+        EDragMode _dragMode;
 
         public ImageView()
         {
@@ -89,35 +94,66 @@ namespace KT_Interface.Views
 
         private void Border_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var pos = e.GetPosition(sender as IInputElement);
-            _initPos = pos;
-            _isDrag = true;
+            
         }
 
         private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            _isDrag = false;
+            _dragMode = EDragMode.None;
+            _viewModel.IsCalcMode = false;
         }
         
         private void Border_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (_isDrag == false)
-                return;
-
             var pos = e.GetPosition(sender as IInputElement);
-            _viewModel.ZoomService.TranslateX = pos.X - _initPos.X;
-            _viewModel.ZoomService.TranslateY = pos.Y - _initPos.Y;
+
+            switch (_dragMode)
+            {
+                case EDragMode.None:
+                    if (_dragMode == EDragMode.None)
+                        return;
+                    break;
+                case EDragMode.Panning:
+                    _viewModel.ZoomService.TranslateX = _offset.X + pos.X - _initPos.X;
+                    _viewModel.ZoomService.TranslateY = _offset.Y + pos.Y - _initPos.Y;
+                    break;
+                case EDragMode.Calc:
+                    _viewModel.EndPt = new Point(
+                        (pos.X - _viewModel.ZoomService.TranslateX) / _viewModel.ZoomService.Scale,
+                        (pos.Y - _viewModel.ZoomService.TranslateY) / _viewModel.ZoomService.Scale);
+                    break;
+            }
         }
 
         private void Border_MouseLeave(object sender, MouseEventArgs e)
         {
-            _isDrag = false;
+            _dragMode = EDragMode.None;
+            _viewModel.IsCalcMode = false;
         }
 
+        Point _offset;
         //Modify.Choijh.2021.05.27.Insert code Image fit used Mouse Right btn.Start...
         private void Border_PreviewMouseRightButtonDown(object sender, MouseEventArgs e)
         {
-            _viewModel.ZoomFit();
+            var pos = e.GetPosition(sender as IInputElement);
+            _initPos = pos;
+            _offset = new Point(_viewModel.ZoomService.TranslateX, _viewModel.ZoomService.TranslateY);
+            _dragMode = EDragMode.Panning;
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var pos = e.GetPosition(sender as IInputElement);
+            _dragMode = EDragMode.Calc;
+            if (_viewModel.ZoomService.Scale == 0)
+                return;
+
+            
+            _viewModel.StartPt = new Point(
+                (pos.X - _viewModel.ZoomService.TranslateX) / _viewModel.ZoomService.Scale, 
+                (pos.Y - _viewModel.ZoomService.TranslateY) / _viewModel.ZoomService.Scale);
+            _viewModel.EndPt = _viewModel.StartPt;
+            _viewModel.IsCalcMode = true;
         }
         //Modify.Choijh.2021.05.27.Insert code Image fit used Mouse Right btn.End...
     }
